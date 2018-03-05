@@ -1,19 +1,18 @@
-from django.db import models
-from django_countries.fields import CountryField
+from django import forms
+from django.core.validators import RegexValidator
+from .models import User
 
 
-# Create your models here.
-class User(models.Model):
+class createAccount(forms.ModelForm):
 
-    accounts = (
-        ('Customer','Customer'),
-        ('Product Manager','Product Manager'),
-        ('Accounting Manager','Accounting Manager'),
-        ('Admin','Admin'),
-    )
+    class Meta:
 
-    #Basic Details
-    accountType = models.CharField(max_length=25,choices=accounts,default='Customer')
+        model = User
+        fields = ['firstName','middleInitial','lastName','username','password','email','BhouseNo','Bstreet','Bsubdivision','Bcity','BpostalCode','Bcountry']
+
+
+'''
+            accountType = models.CharField(max_length=25,choices=accounts,default='Customer')
     firstName = models.CharField(max_length=25)
     middleInitial = models.CharField(max_length=10)
     lastName = models.CharField(max_length=25)
@@ -36,12 +35,4 @@ class User(models.Model):
     Scity = models.CharField(max_length=50)
     SpostalCode = models.IntegerField()
     Scountry = CountryField()
-
-    def __str__(self):
-        return self.username
-
-class Items(models.Model):
-    name = models.CharField(max_length=50)
-    description = models.TextField()
-    price = models.FloatField()
-    photo = models.ImageField(upload_to='item_photos')
+'''
