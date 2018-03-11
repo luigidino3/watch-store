@@ -1,6 +1,7 @@
 from django.db import models
 from django_countries.fields import CountryField
-
+from djmoney.models.fields import MoneyField
+from djmoney.money import Money
 
 # Create your models here.
 class User(models.Model):
@@ -43,7 +44,12 @@ class User(models.Model):
 class Items(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()
-    price = models.FloatField()
+    price = MoneyField(max_digits=20, decimal_places=2, default_currency='PHP')
+
+    types = (('Analog','Analog'),('Smart','Smart'),('Digital','Digital'))
+    
+    itemtype = models.CharField(max_length=25, choices=types, default='Analog')
+    quantity = models.IntegerField(default=20)
     photo = models.ImageField(upload_to='item_photos')
 
     def __str__(self):
