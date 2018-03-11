@@ -8,31 +8,24 @@ class createAccount(forms.ModelForm):
     class Meta:
 
         model = User
-        fields = ['firstName','middleInitial','lastName','username','password','email','BhouseNo','Bstreet','Bsubdivision','Bcity','BpostalCode','Bcountry']
+        fields = ['firstName','middleInitial','lastName','username','password','email','BhouseNo','Bstreet','Bsubdivision','Bcity','BpostalCode',
+        'Bcountry','ShouseNo','Sstreet','Scity','Ssubdivision','SpostalCode','Scountry']
 
+        widgets = {
+            'password':forms.PasswordInput(),
+            'email':forms.EmailInput(),
+            'Bstreet':forms.Textarea(),
+            'Sstreet':forms.Textarea(),
 
-'''
-            accountType = models.CharField(max_length=25,choices=accounts,default='Customer')
-    firstName = models.CharField(max_length=25)
-    middleInitial = models.CharField(max_length=10)
-    lastName = models.CharField(max_length=25)
-    username = models.CharField(max_length=25)
-    password = models.CharField(max_length=25)
-    email = models.CharField(max_length=25)
+        }
 
-    #Billing Details
-    BhouseNo = models.IntegerField()
-    Bstreet = models.CharField(max_length=50)
-    Bsubdivision = models.CharField(max_length=50)
-    Bcity = models.CharField(max_length=50)
-    BpostalCode = models.IntegerField()
-    Bcountry = CountryField()
+class adminCreate(forms.ModelForm):
 
-    #Shipping Details
-    ShouseNo = models.IntegerField()
-    Sstreet = models.CharField(max_length=50)
-    Ssubdivision = models.CharField(max_length=50)
-    Scity = models.CharField(max_length=50)
-    SpostalCode = models.IntegerField()
-    Scountry = CountryField()
-'''
+    class Meta:
+
+        model = User
+        fields = ['username','password']
+
+        widgets = {
+            'password':forms.PasswordInput(),
+        }

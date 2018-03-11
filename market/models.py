@@ -45,3 +45,6 @@ class Items(models.Model):
     description = models.TextField()
     price = models.FloatField()
     photo = models.ImageField(upload_to='item_photos')
+
+    def __str__(self):
+        return self.name

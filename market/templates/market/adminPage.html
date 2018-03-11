@@ -1,0 +1,34 @@
+<head>
+
+</head>
+
+<body>
+    <h1>Welcome to Admin Page!</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        Create Accounts
+        <div>
+            <select name="accountType">
+                <option value="Product Manager">Product Manager</option>
+                <option value="Accounting Manager">Accounting Manager</option>
+            </select>
+
+            {% for field in form %}
+            <div>
+                <label>{{field.label_tag}}</label>
+                <div>{{field}}</div>
+            </div>
+            {% endfor %}
+
+            <input type="submit" value="Create">
+        </div>
+
+        Change Passwords
+        <div>
+            <input type="text" name="username">
+        </div>
+
+    </form>
+</body>
