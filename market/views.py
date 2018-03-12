@@ -7,7 +7,6 @@ from market.forms import *
 # Get data
 
 all_users = User.objects.all()
-all_items = Items.objects.all()
 
 def home(request):
     #user_id = request.session['user']
@@ -98,9 +97,39 @@ def admin(request):
     return render(request,'market/adminPage.html',context)
 
 def productManagement(request):
-    
+    all_items = Items.objects.all()
+
+    if request.method == "POST":
+        for item in request.POST:
+            if item[:7] == "delete-":
+                print(item[7:])
+                toDel = Items.objects.get(pk=item[7:])
+                toDel.delete()
+                # add successfully deleted code 
+                return redirect('prod')
+        
+
     context = {
         'all_items':all_items,
     }
-    
+
     return render(request,'market/productManager.html',context)
+
+def productManagementEdit(request,id):
+    item = Items.objects.get(pk=id)
+    form = uploadPhoto(request.POST,request.FILES or None,instance=item)
+
+    if request.method == "POST":
+        edited = form.save(commit=False)
+        edited.name = request.POST.get("name")
+        edited.description = request.POST.get("desc")
+        edited.price = request.POST.get("price")
+        edited.quantity = request.POST.get("quantity")
+        edited.save()
+        return redirect('prod')
+        
+    context = {
+        'item':item,
+        'form':form,
+    }
+    return render(request,'market/editItem.html',context)

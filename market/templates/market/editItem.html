@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>Edit Item</title>
+    </head>
+    <body>
+        <h1>Currently editing: {{item.name}}</h1>
+
+        <div>
+            <form method="POST" enctype="multipart/form-data">
+            {%csrf_token%}
+            <p>Name of item</p>
+            <input type="text" name="name" value="{{item.name}}">
+
+            <p>Description of item</p>
+            <input type="text" name="desc" value="{{item.description}}" style="height:200px;">
+
+            <p>Price of item</p>
+            <input type="number" name="price" value="{{item.price}}">
+
+            <p>Quantity of Item</p>
+            <input type="number" name="quantity" value="{{item.quantity}}">
+
+            <p>Photo of Item</p>
+            <p>Current IMG:</p>
+            <img src={{item.photo.url}} height="200px" width="200px">
+            {%for field in form%}
+            {{field}}
+            {%endfor%}
+            <br>
+            <input type="submit" name="save" value="Save">
+            </form>
+            <button><a href="/prodmanagement">Go Back</a></button>
+        </div>
+    </body>
+</html>
