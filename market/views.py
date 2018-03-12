@@ -7,6 +7,7 @@ from market.forms import *
 # Get data
 
 all_users = User.objects.all()
+all_items = Items.objects.all()
 
 def home(request):
     #user_id = request.session['user']
@@ -95,3 +96,11 @@ def admin(request):
         'form':form,
     }
     return render(request,'market/adminPage.html',context)
+
+def productManagement(request):
+    
+    context = {
+        'all_items':all_items,
+    }
+    
+    return render(request,'market/productManager.html',context)

@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>Product Management</title>
+    </head>
+    <body>
+        <h1>Product Manager Page</h1>
+
+        <div>
+            <p>All Products</p>
+            {%for item in all_items%}
+            <div><img src={{item.photo.url}} height="200px" width="200px"></div>
+            <div> 
+                <p>{{item.name}}</p>
+                <p>{{item.description}}</p>
+                <p>{{item.price}}</p>
+                <p>{{item.quantity}}</p>
+            </div>
+            {%endfor%}
+        </div>
+    </body>
+</html>

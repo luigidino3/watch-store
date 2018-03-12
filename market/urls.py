@@ -9,5 +9,6 @@ urlpatterns = [
     url(r'^login',views.login, name='login'),
     url(r'^signup',views.register,name='signup'),
     url(r'^logout',views.logout,name='logout'),
-    url(r'^adminpage',views.admin,name='adminPage')
+    url(r'^adminpage',views.admin,name='adminPage'),
+    url(r'^prodmanagement',views.productManagement,name='prod')
 ]
