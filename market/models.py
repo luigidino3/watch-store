@@ -44,7 +44,8 @@ class User(models.Model):
 class Items(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()
-    price = MoneyField(max_digits=20, decimal_places=2, default_currency='PHP')
+    #price = MoneyField(max_digits=20, decimal_places=2, default_currency='PHP')
+    price = models.FloatField()
 
     types = (('Analog','Analog'),('Smart','Smart'),('Digital','Digital'))
     
