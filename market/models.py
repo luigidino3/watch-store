@@ -1,7 +1,5 @@
 from django.db import models
 from django_countries.fields import CountryField
-from djmoney.models.fields import MoneyField
-from djmoney.money import Money
 
 # Create your models here.
 class User(models.Model):
