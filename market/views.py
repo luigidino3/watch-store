@@ -186,8 +186,26 @@ def admin(request):
 
     if form.is_valid():
         account = form.save(commit=False)
-        ### Set blank values for all fileds not needed
-        #account.
+        account.accountType = request.POST.get("accountType")
+        account.firstName = "a"
+        account.middleInitial = "a"
+        account.lastname = "a"
+        account.email = "a@a.com"
+
+        account.BhouseNo = 1
+        account.Bstreet = "a"
+        account.Bsubdivision = "a"
+        account.Bcity = "a"
+        account.BpostalCode = 1
+        account.Bcountry = "NZ"
+
+        account.ShouseNo  = 1
+        account.Sstreet = "a"
+        account.Ssubdivision = "a"
+        account.Scity = "a"
+        account.SpostalCode = 1
+        account.Scountry = "NZ"
+
         account.save()
 
         ##PRINT SUCCESSFULLY CREATED ACCOUNT
