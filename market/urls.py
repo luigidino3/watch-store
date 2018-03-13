@@ -4,6 +4,9 @@ from . import views
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^shop$', views.shop, name='shop'),
+    url(r'^shop/analog$', views.shopAnalog, name='shopA'),
+    url(r'^shop/digital$', views.shopDigital, name='shopD'),
+    url(r'^shop/smart$', views.shopSmart, name='shopS'),
     url(r'^about$', views.about, name='about'),
     url(r'^contact$', views.contact, name='contact'),
     url(r'^login$',views.login, name='login'),

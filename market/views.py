@@ -5,11 +5,8 @@ from .models import *
 from market.forms import *
 from market.forms import addItems
 
-# Get data
-
-all_users = User.objects.all()
-
 def home(request):
+    all_users = User.objects.all()
     #user_id = request.session['user']
     try:
         loggeduser = User.objects.get(id=request.session['user'])
@@ -18,8 +15,11 @@ def home(request):
         loggeduser = 0
         print("No session")
 
+    all_items = Items.objects.all()
+    all_items = Items.objects.order_by('quantity')[:8]
     context = {
         'loggeduser':loggeduser,
+        'all_items':all_items,
     }
 
     return render(request,'market/index.html',context)
@@ -32,21 +32,87 @@ def home(request):
 
 def shop(request):
     all_items = Items.objects.all()
-    form = searchForm(request.POST)
-
+    message = "All"
     try:
         loggeduser = User.objects.get(id=request.session['user'])
     except(KeyError, User.DoesNotExist):
         loggeduser = 0
     
+    if request.method == "GET":
+        if "search-product" in request.GET:
+            all_items = Items.objects.filter(name__icontains=request.GET.get("search-product"))
+
     context = {
         'all_items':all_items,
-        'form':form,
-        'loggeduser':loggeduser
+        'loggeduser':loggeduser,
+        'message':message,
     }
 
     return render(request,'market/product.html',context)
 
+def shopAnalog(request):
+    all_items = Items.objects.all()
+    all_items = Items.objects.filter(itemtype__contains="Analog")
+    message = "Analog"
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
+    
+    if request.method == "GET":
+        if "search-product" in request.GET:
+            all_items = Items.objects.filter(name__icontains=request.GET.get("search-product"))
+
+    context = {
+        'all_items':all_items,
+        'loggeduser':loggeduser,
+        'message':message,
+    }
+
+    return render(request,'market/product.html',context)  
+
+def shopDigital(request):
+    all_items = Items.objects.all()
+    all_items = Items.objects.filter(itemtype__contains="Digital")
+    message = "Digital"
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
+    
+    if request.method == "GET":
+        if "search-product" in request.GET:
+            all_items = Items.objects.filter(name__icontains=request.GET.get("search-product"))
+
+    context = {
+        'all_items':all_items,
+        'loggeduser':loggeduser,
+        'message':message,
+    }
+
+    return render(request,'market/product.html',context)  
+
+def shopSmart(request):
+    all_items = Items.objects.all()
+    all_items = Items.objects.filter(itemtype__contains="Smart")
+    message = "Smart"
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
+    
+    if request.method == "GET":
+        if "search-product" in request.GET:
+            all_items = Items.objects.filter(name__icontains=request.GET.get("search-product"))
+
+    context = {
+        'all_items':all_items,
+        'loggeduser':loggeduser,
+        'message':message,
+    }
+
+    return render(request,'market/product.html',context)  
+            
 def cart(request):
     return render(request, 'market/cart.html', context)
 
@@ -73,6 +139,7 @@ def contact(request):
     return render(request,'market/contact.html',context)
 
 def login(request):
+    all_users = User.objects.all()
     error = ''
 
     if request.method == "POST":
@@ -88,6 +155,8 @@ def login(request):
                         return redirect('home')
                     elif i.accountType == 'Admin':
                         return redirect('adminPage')
+                    elif i.accountType == 'Product Manager':
+                        return redirect('prod')
 
         error = "Invalid username/password"
 
