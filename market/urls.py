@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^prodmanagement$',views.productManagement,name='prod'),
     url(r'^prodmanagement/edit/(?P<id>[0-9]+)$',views.productManagementEdit,name='prodEdit'),
     url(r'^prodmanagement/add$',views.addItem,name='add'),
+    url(r'^shop/viewitem/(?P<id>[0-9]+)$',views.productDetails,name='productDetail'),
 ]

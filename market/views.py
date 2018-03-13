@@ -251,3 +251,21 @@ def addItem(request):
         'form':form,
     }
     return render(request,'market/addItem.html',context)
+
+def productDetails(request,id):
+    item = Items.objects.get(pk=id)
+    all_items = Items.objects.all()
+    all_items = Items.objects.filter(itemtype__contains=item.itemtype)
+    all_items = all_items.exclude(id__exact=item.id)
+    print(item.itemtype)
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
+
+    context = {
+        'item':item,
+        'loggeduser':loggeduser,
+        'all_items':all_items,
+    }
+    return render(request,'market/product-detail.html',context)
