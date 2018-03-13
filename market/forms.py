@@ -50,3 +50,13 @@ class searchForm(forms.ModelForm):
 	
 		model = Items
 		fields = ['name']
+
+class addItems(forms.ModelForm):
+
+    class Meta:
+
+        model = Items
+        fields = ['name','description','price','itemtype','quantity','photo']
+        widgets = {
+            'description':forms.Textarea(),
+        }

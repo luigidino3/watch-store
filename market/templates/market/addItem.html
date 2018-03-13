@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>Add a new product</title>
+    </head>
+    <body>
+        <h1>Add a new product</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {%csrf_token%}
+            {%for field in form%}
+        <div>
+            
+            <p>{{field.label_tag}}</p>
+            <p>{{field}}</p>
+        </div>
+            {%endfor%}
+
+        <input type="submit" name ="add" value="Add!">
+        </form>
+
+        <button><a href="/prodmanagement">Go back</a></button>
+    </body>
+</html>
