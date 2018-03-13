@@ -1,5 +1,7 @@
 from django.db import models
 from django_countries.fields import CountryField
+from django.core.validators import MinValueValidator
+from django.core.validators import MaxValueValidator
 
 # Create your models here.
 class User(models.Model):
@@ -53,3 +55,46 @@ class Items(models.Model):
 
     def __str__(self):
         return self.name
+		
+class CreditInfo(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	cvv = models.PositiveIntegerField(validators=[MinValueValidator(3), MaxValueValidator(3)])
+	card_number = models.PositiveIntegerField(validators=[MinValueValidator(16), MaxValueValidator(16)])
+	exp_date = models.DateField(auto_now=False)
+	
+	def __str__(self):
+		return self.user.username
+	
+class Transaction(models.Model):
+	trans_num = models.IntegerField()
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	trans_date = models.DateField(auto_now=False)
+	
+	def __str__(self):
+		return self.trans_num
+		
+class TransactionItem(models.Model):
+	transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
+	item = models.ForeignKey(Items, on_delete=models.CASCADE)
+	quantity = models.IntegerField()
+	
+	def __str__(self):
+		return self.transaction.trans_num
+		
+class Cart(models.Model):
+	cart_num = models.IntegerField()
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	
+	def __str__(self):
+		return self.cart_num
+	
+class CartItem(models.Model):
+	quantity = models.IntegerField()
+	cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+	item = models.ForeignKey(Items, on_delete=models.CASCADE)
+	quantity = models.IntegerField()
+	
+	def __str__(self):
+		return self.cart.cart_num
+	
+	

@@ -1,6 +1,6 @@
 from django import forms
 from django.core.validators import RegexValidator
-from .models import User,Items
+from .models import User,Items, CreditInfo
 
 
 class createAccount(forms.ModelForm):
@@ -36,3 +36,17 @@ class uploadPhoto(forms.ModelForm):
 
         model = Items
         fields = ['photo']
+		
+class creditInfoForm(forms.ModelForm):
+
+	class Meta:
+	
+		model = CreditInfo
+		fields = ['cvv', 'card_number', 'exp_date']
+		
+class searchForm(forms.ModelForm):
+	
+	class Meta:
+	
+		model = Items
+		fields = ['name']
