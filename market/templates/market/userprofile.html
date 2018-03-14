@@ -5,9 +5,6 @@
 <body>
 <!-- user detailz -->
 
-<button>
-	<a href="/userprofile/edit/{{user.id}}">Edit profile</a>
-</button>
 Name: {{ user.firstName }} {{ user.middleInitial }}. {{ user.lastName }}
 <br>
 Username: {{ user.username }}
@@ -41,6 +38,13 @@ Shipping Country: {{ user.Scountry.name }}
 	{% endfor %}
 {% endfor %}
 
+<br>
+<button>
+	<a href="/userprofile/edit/{{user.id}}">Edit profile</a>
+</button>
+<button>
+	<a href="/">bak</a>
+</button>
 
 </body>
 </html>

@@ -61,7 +61,7 @@ class Transaction(models.Model):
 	trans_date = models.DateField(auto_now=False)
 	
 	def __str__(self):
-		return self.trans_num
+		return str(self.trans_num)
 		
 class TransactionItem(models.Model):
 	transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
@@ -69,14 +69,14 @@ class TransactionItem(models.Model):
 	quantity = models.IntegerField()
 	
 	def __str__(self):
-		return self.transaction.trans_num
+		return str(self.transaction.trans_num)
 		
 class Cart(models.Model):
 	cart_num = models.IntegerField()
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	
 	def __str__(self):
-		return self.cart_num
+		return str(self.cart_num)
 	
 class CartItem(models.Model):
 	quantity = models.IntegerField()
@@ -85,7 +85,7 @@ class CartItem(models.Model):
 	quantity = models.IntegerField()
 	
 	def __str__(self):
-		return self.cart.cart_num
+		return str(self.cart.cart_num)
 		
 class Review(models.Model):
 	title = models.CharField(max_length=120, default="A review")
@@ -93,4 +93,5 @@ class Review(models.Model):
 	item = models.ForeignKey(Items, on_delete=models.CASCADE)
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	
-	
+	def __str__(self):
+		return self.title
