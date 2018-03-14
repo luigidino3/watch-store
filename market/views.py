@@ -122,12 +122,6 @@ def cart(request, user_id):
 	user = User.objects.get(pk=user_id)
 	cartz_id = cart.pk()
 	cart_itemz = CartItem.objects.get(pk=cartz_id)
-
-    try:
-        loggeduser = User.objects.get(id=request.session['user'])
-    except(KeyError, User.DoesNotExist):
-        loggeduser = 0
- 
 	form = creditInfoForm(request.POST)
 	
 	if form.is_valid():
