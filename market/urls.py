@@ -18,5 +18,6 @@ urlpatterns = [
     url(r'^prodmanagement/add$',views.addItem,name='add'),
     url(r'^shop/viewitem/(?P<id>[0-9]+)$',views.productDetails,name='productDetail'),
     url(r'^userprofile/(?P<user_id>[0-9]+)$', views.userProfile, name='userprofile'),
+    url(r'^userprofile/edit/(?P<user_id>[0-9]+)$', views.editProfile, name='editprofile'),
 	url(r'^cart/$', views.cart, name='cart'),
 ]

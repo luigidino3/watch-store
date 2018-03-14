@@ -353,3 +353,26 @@ def userProfile(request, user_id):
 	}
 	
 	return render(request, 'market/userprofile.html', context)
+
+def editProfile(request,user_id):
+    user = User.objects.get(id=user_id)
+    form = createAccount(request.POST or None,instance=user)
+
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+    except:
+        loggeduser = 0
+
+    if request.method == "POST":
+        print("")
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.accountType = 'Customer'
+            user.save()
+            return redirect('userprofile')
+
+    context = {
+        'user':user,
+        'form':form,
+    }
+    return render(request,'market/editprofile.html',context)
