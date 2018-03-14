@@ -42,6 +42,8 @@ def shop(request):
         if "search-product" in request.GET:
             all_items = Items.objects.filter(name__icontains=request.GET.get("search-product"))
 
+    #if request.POST.get("addcart"):
+
     context = {
         'all_items':all_items,
         'loggeduser':loggeduser,
@@ -343,10 +345,8 @@ def userProfile(request, user_id):
 	
 	try:
 		transactions = Transaction.objects.get(user=user)
-		cart = Cart.objects.get(user=user)
 	except:
 		transactions = None
-		cart = None
 		
 	all_transitems = TransactionItem.objects.all()
 	
