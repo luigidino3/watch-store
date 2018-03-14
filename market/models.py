@@ -54,16 +54,15 @@ class Items(models.Model):
 
     def __str__(self):
         return self.name
-		
-class CreditInfo(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	cvv = models.PositiveIntegerField(validators=[MinValueValidator(3), MaxValueValidator(3)])
-	card_number = models.PositiveIntegerField(validators=[MinValueValidator(16), MaxValueValidator(16)])
-	exp_date = models.DateField(auto_now=False)
-	
-	def __str__(self):
-		return self.user.username
-	
+
+class Review(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    item = models.ForeignKey(Items,on_delete=models.CASCADE)
+    description = models.CharField(max_length=100)	
+
+    def __str__(self):
+        return self.item
+        
 class Transaction(models.Model):
 	trans_num = models.IntegerField()
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
