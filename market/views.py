@@ -369,7 +369,7 @@ def editProfile(request,user_id):
             user = form.save(commit=False)
             user.accountType = 'Customer'
             user.save()
-            return redirect('userprofile')
+            return redirect('userprofile',user_id=user.id)
 
     context = {
         'user':user,
