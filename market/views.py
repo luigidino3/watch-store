@@ -54,6 +54,7 @@ def shopAnalog(request):
     all_items = Items.objects.all()
     all_items = Items.objects.filter(itemtype__contains="Analog")
     message = "Analog"
+
     try:
         loggeduser = User.objects.get(id=request.session['user'])
     except(KeyError, User.DoesNotExist):
@@ -75,6 +76,7 @@ def shopDigital(request):
     all_items = Items.objects.all()
     all_items = Items.objects.filter(itemtype__contains="Digital")
     message = "Digital"
+
     try:
         loggeduser = User.objects.get(id=request.session['user'])
     except(KeyError, User.DoesNotExist):
@@ -96,6 +98,7 @@ def shopSmart(request):
     all_items = Items.objects.all()
     all_items = Items.objects.filter(itemtype__contains="Smart")
     message = "Smart"
+
     try:
         loggeduser = User.objects.get(id=request.session['user'])
     except(KeyError, User.DoesNotExist):
@@ -114,7 +117,12 @@ def shopSmart(request):
     return render(request,'market/product.html',context)  
             
 def cart(request):
-    return render(request, 'market/cart.html', context)
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
+    
+    return render(request, 'market/cart.html', {'loggeduser':loggeduser})
 
 def about(request):
     try:
