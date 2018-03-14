@@ -120,9 +120,8 @@ def cart(request, user_id):
 	all_cart = CartItems.objects.all()
 	cart = Cart.objects.get(user=user_id)
 	user = User.objects.get(pk=user_id)
-	cartz_id = cart.pk() #walang ganitong command HAHAH 
+	cartz_id = cart.id
 	cart_itemz = CartItem.objects.get(pk=cartz_id)
-	form = creditInfoForm(request.POST) 
 	
 	if form.is_valid():
 	
@@ -137,13 +136,13 @@ def cart(request, user_id):
 		transaction.trans_date = datetime.now()
 		transaction.save()
 		
-		for i in cart_itemz:
+		for itemz in cart_itemz:
 			trans_item = TransactionItem()
 			trans_item.transaction = transaction
-			trans_item.item = cart_itemz[i].item #i.item lang dapat
-			trans_item.quantity = cart_itemz[i].quantity #i.quantity
+			trans_item.item = itemz.item
+			trans_item.quantity = itemz.quantity
 			trans_item.save()
-			cart_itemz[i].delete() #i.delete()
+			itemz.delete()
 			
 		return render(request, 'market/cart.html', user_id)
 		
@@ -153,6 +152,13 @@ def cart(request, user_id):
 	}
 
 	return render(request,'market/product.html',context)
+
+def review(request):
+    form = reviewForm(request.POST or None)
+    context = {
+        'form':form,
+    }
+    return render(request, 'market/review.html', context)
 
 def about(request):
     try:
