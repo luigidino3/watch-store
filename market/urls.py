@@ -13,9 +13,10 @@ urlpatterns = [
     url(r'^signup$',views.register,name='signup'),
     url(r'^logout$',views.logout,name='logout'),
     url(r'^adminpage$',views.admin,name='adminPage'),
-    url(r'^cart$',views.cart,name='cart'),
     url(r'^prodmanagement$',views.productManagement,name='prod'),
     url(r'^prodmanagement/edit/(?P<id>[0-9]+)$',views.productManagementEdit,name='prodEdit'),
     url(r'^prodmanagement/add$',views.addItem,name='add'),
     url(r'^shop/viewitem/(?P<id>[0-9]+)$',views.productDetails,name='productDetail'),
+    url(r'^userprofile/(?P<user_id>[0-9]+)$', views.userProfile, name='userprofile'),
+	url(r'^cart/$', views.cart, name='cart'),
 ]

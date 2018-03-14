@@ -116,13 +116,48 @@ def shopSmart(request):
 
     return render(request,'market/product.html',context)  
             
-def cart(request):
+def cart(request, user_id):
+	all_cart = CartItems.objects.all()
+	cart = Cart.objects.get(user=user_id)
+	user = User.objects.get(pk=user_id)
+	cartz_id = cart.pk()
+	cart_itemz = CartItem.objects.get(pk=cartz_id)
+
     try:
         loggeduser = User.objects.get(id=request.session['user'])
     except(KeyError, User.DoesNotExist):
         loggeduser = 0
-    
-    return render(request, 'market/cart.html', {'loggeduser':loggeduser})
+ 
+	form = creditInfoForm(request.POST)
+	
+	if form.is_valid():
+	
+		'''
+		creditinfo = form.save(commit=False)
+		creditinfo.user = user
+		creditinfo.save()
+		'''
+		transaction = Transaction()
+		transaction.user = user
+		transaction.trans_date = datetime.now()
+		transaction.save()
+		
+		for i in cart_itemz:
+			trans_item = TransactionItem()
+			trans_item.transaction = transaction
+			trans_item.item = cart_itemz[i].item
+			trans_item.quantity = cart_itemz[i].quantity
+			trans_item.save()
+			cart_itemz[i].delete()
+			
+		return render(request, 'market/cart.html', user_id)
+		
+	
+	context = {
+		'cart_itemz':cart_itemz,
+	}
+
+	return render(request,'market/product.html',context)
 
 def about(request):
     try:
@@ -295,3 +330,31 @@ def productDetails(request,id):
         'all_items':all_items,
     }
     return render(request,'market/product-detail.html',context)
+
+def userProfile(request, user_id):
+	user = User.objects.get(pk=user_id)
+	
+	try:
+		transactions = Transaction.objects.get(user=user)
+		cart = Cart.objects.get(pk=user_id)
+	except:
+		transactions = None
+		cart = None
+		
+	all_transitems = TransactionItem.objects.all()
+	
+	try:
+		loggeduser = User.objects.get(id=request.session['user'])
+		#print('This is my session id:'+ str(request.session['user']))
+	except(KeyError, User.DoesNotExist):
+		loggeduser = 0
+		#print("No session")
+	
+	context = {
+		'loggeduser':loggeduser,
+		'user':user,
+		'transactions':transactions,
+		'all_transitems':all_transitems,
+	}
+	
+	return render(request, 'market/userprofile.html', context)
