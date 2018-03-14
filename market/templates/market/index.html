@@ -86,7 +86,7 @@
 			</a>
 
 			{% else %}
-			<a href="#" class="header-wrapicon1 dis-block">
+			<a href="/userprofile/{{loggeduser.id}}" class="header-wrapicon1 dis-block">
 				Welcome Back, {{loggeduser.firstName}}
 			</a>
 
@@ -221,7 +221,7 @@
 					</a>
 
 					{%else%}
-					<a href="#" class="header-wrapicon1 dis-block">
+					<a href="/userprofile/{{loggeduser.id}}" class="header-wrapicon1 dis-block">
 						Welcome back, {{loggeduser.firstName}}
 					</a>
 

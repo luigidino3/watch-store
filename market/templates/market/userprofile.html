@@ -1,0 +1,50 @@
+{% load staticfiles %}
+
+<html>
+<head><title>this is user profile</title></head>
+<body>
+<!-- user detailz -->
+
+Name: {{ user.firstName }} {{ user.middleInitial }}. {{ user.lastName }}
+<br>
+Username: {{ user.username }}
+<br>
+Billing Address: {{ user.BhouseNo }} {{ user.Bstreet }}, {{ user.Bsubdivision }}, {{ user.Bcity }}
+<br>
+Billing Postal Code: {{ user.BpostalCode }}
+<br>
+Billing Country: {{ user.Bcountry.name }}
+<br>
+Shipping Address: {{ user.ShouseNo }} {{ user.Sstreet }}, {{ user.Ssubdivision }}, {{ user.Scity }}
+<br>
+Shipping Postal Code: {{ user.SpostalCode }}
+<br>
+Shipping Country: {{ user.Scountry.name }}
+<br><br>
+
+<!-- transaction history -->
+{% for transaction in transactions %}
+	
+	Transaction Date: {{ transaction.trans_date }}
+	<br>
+	Transaction Items: <br>
+	{% for trans_item in all_transitem %}
+
+		{% if trans_item.transaction == transaction %}
+			Name: {{ trans_item.item.name }} | Quantity: {{ trans_item.quantity }}
+		{% endif %}
+
+
+	{% endfor %}
+{% endfor %}
+
+<br>
+<button>
+	<a href="/userprofile/edit/{{user.id}}">Edit profile</a>
+</button>
+<button>
+	<a href="/">bak</a>
+</button>
+
+</body>
+</html>

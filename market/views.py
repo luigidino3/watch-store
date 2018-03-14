@@ -116,13 +116,49 @@ def shopSmart(request):
 
     return render(request,'market/product.html',context)  
             
-def cart(request):
-    try:
-        loggeduser = User.objects.get(id=request.session['user'])
-    except(KeyError, User.DoesNotExist):
-        loggeduser = 0
-    
-    return render(request, 'market/cart.html', {'loggeduser':loggeduser})
+def cart(request, user_id):
+	all_cart = CartItems.objects.all()
+	cart = Cart.objects.get(user=user_id)
+	user = User.objects.get(pk=user_id)
+	cartz_id = cart.id
+	cart_itemz = CartItem.objects.get(pk=cartz_id)
+	
+	if form.is_valid():
+	
+		'''
+		creditinfo = form.save(commit=False)
+		creditinfo.user = user
+		creditinfo.save()
+		'''
+
+		transaction = Transaction()
+		transaction.user = user
+		transaction.trans_date = datetime.now()
+		transaction.save()
+		
+		for itemz in cart_itemz:
+			trans_item = TransactionItem()
+			trans_item.transaction = transaction
+			trans_item.item = itemz.item
+			trans_item.quantity = itemz.quantity
+			trans_item.save()
+			itemz.delete()
+			
+		return render(request, 'market/cart.html', user_id)
+		
+	
+	context = {
+		'cart_itemz':cart_itemz,
+	}
+
+	return render(request,'market/product.html',context)
+
+def review(request):
+    form = reviewForm(request.POST or None)
+    context = {
+        'form':form,
+    }
+    return render(request, 'market/review.html', context)
 
 def about(request):
     try:
@@ -295,3 +331,54 @@ def productDetails(request,id):
         'all_items':all_items,
     }
     return render(request,'market/product-detail.html',context)
+
+def userProfile(request, user_id):
+	user = User.objects.get(pk=user_id)
+	
+	try:
+		transactions = Transaction.objects.get(user=user)
+		cart = Cart.objects.get(user=user)
+	except:
+		transactions = None
+		cart = None
+		
+	all_transitems = TransactionItem.objects.all()
+	
+	try:
+		loggeduser = User.objects.get(id=request.session['user'])
+		#print('This is my session id:'+ str(request.session['user']))
+	except(KeyError, User.DoesNotExist):
+		loggeduser = 0
+		#print("No session")
+	
+	context = {
+		'loggeduser':loggeduser,
+		'user':user,
+		'transactions':transactions,
+		'all_transitems':all_transitems,
+	}
+	
+	return render(request, 'market/userprofile.html', context)
+
+def editProfile(request,user_id):
+    user = User.objects.get(id=user_id)
+    form = createAccount(request.POST or None,instance=user)
+
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+    except:
+        loggeduser = 0
+
+    if request.method == "POST":
+        print("")
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.accountType = 'Customer'
+            user.save()
+            return redirect('userprofile',user_id=user.id)
+
+    context = {
+        'user':user,
+        'form':form,
+    }
+    return render(request,'market/editprofile.html',context)

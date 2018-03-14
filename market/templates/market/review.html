@@ -1,0 +1,23 @@
+<!-- review.html -->
+
+<html>
+	<head>
+		<title>this is reviewz</title>
+	</head>
+	<body>
+		
+		<!-- form -->
+		<form method="POST">
+			{%csrf_token%}
+			{%for field in form%}
+			<div>
+				{{field.label_tag}}
+				{{field}}
+			</div>
+			{%endfor%}
+		
+			<input type="submit" value="Save">
+		</form>
+		
+	</body>
+</html>

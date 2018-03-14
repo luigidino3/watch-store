@@ -1,0 +1,17 @@
+<head>
+    <title>Edit Profile</title>
+</head>
+<body>
+    <form method="POST">
+    {%csrf_token%}
+    {%for field in form%}
+    <div>
+        {{field.label_tag}}
+        {{field}}
+    </div>
+    {%endfor%}
+
+    <input type="submit" value="Save">
+    </form>
+    <button><a href="/userprofile/{{user.id}}">Go back</a></button>
+</body>

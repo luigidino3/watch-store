@@ -1,6 +1,6 @@
 from django import forms
 from django.core.validators import RegexValidator
-from .models import User,Items
+from .models import User,Items,Review
 
 
 class createAccount(forms.ModelForm):
@@ -53,3 +53,10 @@ class addItems(forms.ModelForm):
         widgets = {
             'description':forms.Textarea(),
         }
+
+class reviewForm(forms.ModelForm):
+
+	class Meta:
+	
+		model = Review
+		fields = ['title', 'description']
