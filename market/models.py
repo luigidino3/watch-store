@@ -71,20 +71,13 @@ class TransactionItem(models.Model):
 	def __str__(self):
 		return str(self.transaction.trans_num)
 		
-class Cart(models.Model):
-	cart_num = models.IntegerField()
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	
-	def __str__(self):
-		return str(self.cart_num)
-	
 class CartItem(models.Model):
 	quantity = models.IntegerField()
-	cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	item = models.ForeignKey(Items, on_delete=models.CASCADE)
 	
 	def __str__(self):
-		return str(self.cart.cart_num)
+		return str(self.user.name)
 		
 class Review(models.Model):
 	title = models.CharField(max_length=120, default="A review")
@@ -94,3 +87,14 @@ class Review(models.Model):
 	
 	def __str__(self):
 		return self.title
+
+class CreditInfo(models.Model):
+    cvv = models.IntegerField(validators=[MinValueValidator(3),MaxValueValidator(3)])
+    cardnumber = models.IntegerField(validators=[MinValueValidator(16),MaxValueValidator(16)])
+    expiration_date = models.DateField(auto_now=False)
+
+    #purpose ne2 is just for forms/validation 
+    #wont save 2 da db 
+
+    def __str__(self):
+        return str(self.cardnumber)

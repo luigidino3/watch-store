@@ -117,41 +117,46 @@ def shopSmart(request):
     return render(request,'market/product.html',context)  
             
 def cart(request, user_id):
-	all_cart = CartItems.objects.all()
-	cart = Cart.objects.get(user=user_id)
-	user = User.objects.get(pk=user_id)
-	cartz_id = cart.id
-	cart_itemz = CartItem.objects.get(pk=cartz_id)
-	
-	if form.is_valid():
-	
-		'''
-		creditinfo = form.save(commit=False)
-		creditinfo.user = user
-		creditinfo.save()
-		'''
+    form = creditForm(request.POST)
+    all_cart = CartItem.objects.all()
+    userr = User.objects.get(pk=user_id)
+    cart_itemz = CartItem.objects.filter(user=userr)
 
-		transaction = Transaction()
-		transaction.user = user
-		transaction.trans_date = datetime.now()
-		transaction.save()
-		
-		for itemz in cart_itemz:
-			trans_item = TransactionItem()
-			trans_item.transaction = transaction
-			trans_item.item = itemz.item
-			trans_item.quantity = itemz.quantity
-			trans_item.save()
-			itemz.delete()
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+        
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
+
+    if form.is_valid():
+         # u no save data jus check if data valid
+        transaction = Transaction()
+        transaction.user = userr
+        transaction.trans_date = datetime.now()
+        transaction.save()
+
+        for itemz in cart_itemz:
+            trans_item = TransactionItem()
+            trans_item.transaction = transaction
+            trans_item.item = itemz.item
+            trans_item.quantity = itemz.quantity
+            trans_item.save()
+            itemz.delete()
 			
-		return render(request, 'market/cart.html', user_id)
+        return render(request, 'market/cart.html', user_id)
 		
-	
-	context = {
+    cart_total = 0
+    for itemz in cart_itemz:
+        aa = itemz.item.price * itemz.quantity
+        cart_total += aa
+
+    context = {
 		'cart_itemz':cart_itemz,
+        'loggeduser':loggeduser,
+        'cart_total':cart_total,
 	}
 
-	return render(request,'market/product.html',context)
+    return render(request,'market/cart.html',context)
 
 def review(request):
     form = reviewForm(request.POST or None)

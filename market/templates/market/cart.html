@@ -119,7 +119,7 @@
 									<div class="header-cart-item-img">
 										<img src="images/item-cart-01.jpg" alt="IMG">
 									</div>
-
+									
 									<div class="header-cart-item-txt">
 										<a href="#" class="header-cart-item-name">
 											White Shirt With Pleat Detail Back
@@ -135,7 +135,7 @@
 									<div class="header-cart-item-img">
 										<img src="/static/images/item-cart-02.jpg" alt="IMG">
 									</div>
-
+									<!-- item end -->
 									<div class="header-cart-item-txt">
 										<a href="#" class="header-cart-item-name">
 											Converse All Star Hi Black Canvas
@@ -233,34 +233,20 @@
 									<div class="header-cart-item-img">
 										<img src="images/item-cart-02.jpg" alt="IMG">
 									</div>
-
+									<!-- item -->
+									{% for itemz in cart_itemz %}
 									<div class="header-cart-item-txt">
 										<a href="#" class="header-cart-item-name">
-											Converse All Star Hi Black Canvas
+											{{itemz.item.name}}
 										</a>
 
 										<span class="header-cart-item-info">
-											1 x $39.00
+											{{itemz.quantity}} x {{itemz.item.price}}
 										</span>
 									</div>
 								</li>
-
-								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="images/item-cart-03.jpg" alt="IMG">
-									</div>
-
-									<div class="header-cart-item-txt">
-										<a href="#" class="header-cart-item-name">
-											Nixon Porter Leather Watch In Tan
-										</a>
-
-										<span class="header-cart-item-info">
-											1 x $17.00
-										</span>
-									</div>
-								</li>
-							</ul>
+								{% endfor %}
+								<!-- item end -->
 
 							<div class="header-cart-total">
 								Total: $75.00
@@ -385,65 +371,31 @@
 							<th class="column-2">Product</th>
 							<th class="column-3">Price</th>
 							<th class="column-4 p-l-70">Quantity</th>
-							<th class="column-5">Total</th>
+							<th class="column-5">:)</th>
 						</tr>
-
+						
+						{% for itemz in cart_itemz %}
 						<tr class="table-row">
 							<td class="column-1">
 								<div class="cart-img-product b-rad-4 o-f-hidden">
-									<img src="images/item-10.jpg" alt="IMG-PRODUCT">
+									<img src="{{itemz.photo.url}}" alt="IMG-PRODUCT">
 								</div>
 							</td>
-							<td class="column-2">Men Tshirt</td>
-							<td class="column-3">$36.00</td>
+							<td class="column-2">{{itemz.item.name}}</td>
+							<td class="column-3">PHP {{itemz.item.price}}</td>
 							<td class="column-4">
-								<div class="flex-w bo5 of-hidden w-size17">
-									<button class="btn-num-product-down color1 flex-c-m size7 bg8 eff2">
-										<i class="fs-12 fa fa-minus" aria-hidden="true"></i>
-									</button>
-
-									<input class="size8 m-text18 t-center num-product" type="number" name="num-product1" value="1">
-
-									<button class="btn-num-product-up color1 flex-c-m size7 bg8 eff2">
-										<i class="fs-12 fa fa-plus" aria-hidden="true"></i>
-									</button>
-								</div>
+								{{itemz.quantity}}
 							</td>
-							<td class="column-5">$36.00</td>
+							<td class="column-5"></td>
 						</tr>
-
-						<tr class="table-row">
-							<td class="column-1">
-								<div class="cart-img-product b-rad-4 o-f-hidden">
-									<img src="images/item-05.jpg" alt="IMG-PRODUCT">
-								</div>
-							</td>
-							<td class="column-2">Mug Adventure</td>
-							<td class="column-3">$16.00</td>
-							<td class="column-4">
-								<div class="flex-w bo5 of-hidden w-size17">
-									<button class="btn-num-product-down color1 flex-c-m size7 bg8 eff2">
-										<i class="fs-12 fa fa-minus" aria-hidden="true"></i>
-									</button>
-
-									<input class="size8 m-text18 t-center num-product" type="number" name="num-product2" value="1">
-
-									<button class="btn-num-product-up color1 flex-c-m size7 bg8 eff2">
-										<i class="fs-12 fa fa-plus" aria-hidden="true"></i>
-									</button>
-								</div>
-							</td>
-							<td class="column-5">$16.00</td>
-						</tr>
+						{% endfor %}
 					</table>
 				</div>
 			</div>
 
 			<div class="flex-w flex-sb-m p-t-25 p-b-25 bo8 p-l-35 p-r-60 p-lr-15-sm">
 				<div class="flex-w flex-m w-full-sm">
-					<div class="size11 bo4 m-r-10">
-						<input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="coupon-code" placeholder="Coupon Code">
-					</div>
+
 
 					<div class="size12 trans-0-4 m-t-10 m-b-10 m-r-10">
 						<!-- Button -->
@@ -460,6 +412,13 @@
 				<div class="flex-w flex-sb bo10 p-t-15 p-b-20">
 
 					<div class="w-size20 w-full-sm">
+						Enter payment info:
+							<form method="POST">
+								{%csrf_token%}
+								{%for field in form%}
+									{{field.label_tag}}
+									{{field}}
+								{%endfor%}
 						<div class="size14 trans-0-4 m-b-10">
 						</div>
 					</div>
@@ -472,15 +431,14 @@
 					</span>
 
 					<span class="m-text21 w-size20 w-full-sm">
-						$39.00
+						{{cart_total}}
 					</span>
 				</div>
 
 				<div class="size15 trans-0-4">
 					<!-- Button -->
-					<button class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">
-						Proceed to Checkout
-					</button>
+					<input type="submit" value="Proceed to Checkout" class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+					</form>
 				</div>
 			</div>
 		</div>
