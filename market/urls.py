@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^userprofile/(?P<user_id>[0-9]+)$', views.userProfile, name='userprofile'),
     url(r'^userprofile/edit/(?P<user_id>[0-9]+)$', views.editProfile, name='editprofile'),
 	url(r'^cart/$', views.cart, name='cart'),
+    url(r'^review/$', views.review, name='review'),
 ]

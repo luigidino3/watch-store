@@ -82,7 +82,6 @@ class CartItem(models.Model):
 	quantity = models.IntegerField()
 	cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
 	item = models.ForeignKey(Items, on_delete=models.CASCADE)
-	quantity = models.IntegerField()
 	
 	def __str__(self):
 		return str(self.cart.cart_num)
