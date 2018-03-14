@@ -337,7 +337,7 @@ def userProfile(request, user_id):
 	
 	try:
 		transactions = Transaction.objects.get(user=user)
-		cart = Cart.objects.get(pk=user_id)
+		cart = Cart.objects.get(user=user)
 	except:
 		transactions = None
 		cart = None
