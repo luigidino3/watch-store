@@ -147,13 +147,14 @@ def cart(request, user_id):
 		
     cart_total = 0
     for itemz in cart_itemz:
-        aa = itemz.item.price * itemz.quantity
+        aa = (itemz.item.price * itemz.quantity)
         cart_total += aa
 
     context = {
 		'cart_itemz':cart_itemz,
         'loggeduser':loggeduser,
         'cart_total':cart_total,
+        'form':form,
 	}
 
     return render(request,'market/cart.html',context)

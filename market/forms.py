@@ -3,6 +3,9 @@ from django.core.validators import RegexValidator
 from .models import User,Items,Review, CreditInfo
 
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
 class createAccount(forms.ModelForm):
 
     class Meta:
@@ -64,6 +67,8 @@ class reviewForm(forms.ModelForm):
 class creditForm(forms.ModelForm):
 
     class Meta:
-        
+
         model = CreditInfo
         fields = ['cvv', 'cardnumber', 'expiration_date']
+
+        widgets = { 'expiration_date':DateInput() }

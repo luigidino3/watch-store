@@ -77,7 +77,7 @@ class CartItem(models.Model):
 	item = models.ForeignKey(Items, on_delete=models.CASCADE)
 	
 	def __str__(self):
-		return str(self.user.name)
+		return self.user.username
 		
 class Review(models.Model):
 	title = models.CharField(max_length=120, default="A review")
@@ -91,7 +91,7 @@ class Review(models.Model):
 class CreditInfo(models.Model):
     cvv = models.IntegerField(validators=[MinValueValidator(3),MaxValueValidator(3)])
     cardnumber = models.IntegerField(validators=[MinValueValidator(16),MaxValueValidator(16)])
-    expiration_date = models.DateField(auto_now=False)
+    expiration_date = models.DateTimeField(auto_now=False)
 
     #purpose ne2 is just for forms/validation 
     #wont save 2 da db 
