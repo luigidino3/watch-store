@@ -337,7 +337,7 @@
 	</header>
 
 	<!-- Title Page -->
-	<section class="bg-title-page p-t-40 p-b-50 flex-col-c-m" style="background-image: url(static/images/heading-pages-06.jpg);">
+	<section class="bg-title-page p-t-40 p-b-50 flex-col-c-m" style="background-image: url(static/images/register.jpg);">
 		<h2 class="l-text2 t-center">
 			Register
 		</h2>
@@ -350,9 +350,9 @@
 				<div class="col-md-6 p-b-30">
 					<form class="leave-comment" method="POST">
 						{% csrf_token %}
-						{%if error%}
+						{%if message != ''%}
 						<h4 style= "color: #D8000C; background-color: #FFD2D2;vertical-align:middle;"class="p-b-30 p-t-10">
-							Invalid username / password
+							{{message}}
 						</h4>
 						{%endif%}
 

@@ -1,7 +1,7 @@
 {% load staticfiles %}
 
 <html>
-<head><title>this is user profile</title></head>
+<head><title>User Profile</title></head>
 <body>
 <!-- user detailz -->
 
@@ -42,8 +42,13 @@ Shipping Country: {{ user.Scountry.name }}
 <button>
 	<a href="/userprofile/edit/{{user.id}}">Edit profile</a>
 </button>
+
 <button>
-	<a href="/">bak</a>
+	<a href="/history">View transaction history</a>
+</button>
+
+<button>
+	<a href="/">Go back</a>
 </button>
 
 </body>

@@ -55,21 +55,14 @@ class Items(models.Model):
     def __str__(self):
         return self.name
 
-class Transaction(models.Model):
-	trans_num = models.IntegerField()
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	trans_date = models.DateField(auto_now=False)
-	
-	def __str__(self):
-		return str(self.trans_num)
-		
 class TransactionItem(models.Model):
-	transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	item = models.ForeignKey(Items, on_delete=models.CASCADE)
 	quantity = models.IntegerField()
-	
+	trans_date = models.DateField(auto_now=False)
+
 	def __str__(self):
-		return str(self.transaction.trans_num)
+		return str(self.user.username)
 		
 class CartItem(models.Model):
 	quantity = models.IntegerField()

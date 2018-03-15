@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title>History of transactions</title>
+    </head>
+    <body>
+        <h1>All past transactions</h1>
+        <br>
+        <table>
+        <tr>
+            <th>Date</th>
+            <th>Item name</th>
+            <th>Quantity</th>
+            <th></th>
+        </tr>
+        {%for item in all_items%}
+        <tr>
+            <th>{{item.trans_date}}</th>
+            <th>{{item.item.name}}</th>
+            <th>{{item.quantity}}</th>
+            <th><button><a href="/review/{{item.item.id}}">Review this item!</a></button></th>
+        </tr>
+        {%endfor%}
+        </table>
+
+        <button><a href="/userprofile/{{loggeduser.id}}">Go back to profile</a></button>
+    </body>
+</html>

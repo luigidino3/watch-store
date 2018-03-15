@@ -22,10 +22,10 @@
                 <img src={{item.photo.url}} height="200px" width="200px">
             </div>
             <div>
-                <p>{{item.name}}</p>
-                <p>{{item.description}}</p>
-                <p>{{item.price}}</p>
-                <p>{{item.quantity}}</p>
+                <p>Name: {{item.name}}</p>
+                <p>Description: {{item.description}}</p>
+                <p>Price: {{item.price}}</p>
+                <p>Quantity: {{item.quantity}}</p>
             </div>
             <button><a href="/prodmanagement/edit/{{item.id}}">Edit</a></button>
             <input type="submit" name="delete-{{item.id}}" value="Delete">

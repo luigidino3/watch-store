@@ -9,6 +9,9 @@
         {% csrf_token %}
 
         Create Accounts
+        {%if message != ""%}
+        <h1>USERNAME ALREADY TAKEN</h1>
+        {%endif%}
         <div>
             <select name="accountType">
                 <option value="Product Manager">Product Manager</option>

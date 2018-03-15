@@ -101,8 +101,8 @@
 					</a>
 		
 					{% else %}
-					<a href="#" class="header-wrapicon1 dis-block">
-						Profile
+					<a href="/userprofile/{{loggeduser.id}}" class="header-wrapicon1 dis-block">
+						Welcome back, {{loggeduser.username}}
 					</a>
 					
 					<span class="linedivide1"></span>
@@ -357,12 +357,12 @@
 	</header>
 
 	<!-- Title Page -->
-	<section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" style="background-image: url(/static/images/heading-pages-02.jpg);">
+	<section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" style="background-image: url(/static/images/header2.jpg);">
 		<h2 class="l-text2 t-center">
 			Aion Watches
 		</h2>
 		<p class="m-text13 t-center">
-			U can add description here
+			The watches of tomorrow
 		</p>
 	</section>
 

@@ -2,11 +2,12 @@
 
 <html>
 	<head>
-		<title>this is reviewz</title>
+		<title>Review</title>
 	</head>
 	<body>
 		
 		<!-- form -->
+		<h1>Currently posting a review for: {{item.name}}</h1>
 		<form method="POST">
 			{%csrf_token%}
 			{%for field in form%}
@@ -18,6 +19,7 @@
 		
 			<input type="submit" value="Save">
 		</form>
+		<button><a href="/userprofile/{{loggeduser.id}}">Go back</a></button>
 		
 	</body>
 </html>

@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>Accounting Page</title>
+    </head>
+    <body>
+        <h1>Currently Viewing: {{message}}</h1>
+        <form method="GET">
+        <button name="all">All Total Sales</button>
+        <button name="smart">All Smart Watches Sales</button>
+        <button name="analog">All Analog Watches Sales</button>
+        <button name="digital">All Digital Watches Sales</button>
+        </form>
+        
+        <form method="GET">
+        <select name="item">
+            {%for item in all_items%}
+            <option value="{{item.name}}">{{item.name}}</option>
+            {%endfor%}
+        </select>
+        <input type="submit">
+        </form>
+
+        <button><a href="/logout">Logout</a></button>
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>User</th>
+                <th>Item</th>
+                <th>Cost</th>
+                <th>Quantity</th>
+                <th></th>
+            </tr>
+            {%for field in transactions%}
+            <tr>
+                <th>{{field.trans_date}}</th>
+                <th>{{field.user.username}}</th>
+                <th>{{field.item.name}}</th>
+                <th>{{field.item.price}}</th>
+                <th>{{field.quantity}}</th>
+                <th>{%widthratio field.item.price 1 field.quantity%}</th>
+            </tr>
+            {%endfor%}
+            <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>SUBTOTAL: </th>
+                <th>{{total}}</th>
+            </tr>
+        </table>
+    </body>
+</html>

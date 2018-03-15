@@ -20,5 +20,7 @@ urlpatterns = [
     url(r'^userprofile/(?P<user_id>[0-9]+)$', views.userProfile, name='userprofile'),
     url(r'^userprofile/edit/(?P<user_id>[0-9]+)$', views.editProfile, name='editprofile'),
 	url(r'^cart/(?P<user_id>[0-9]+)$', views.cart, name='cart'),
-    url(r'^review/(?P<item_id>[0-9]+)$$', views.review, name='review'),
+    url(r'^review/(?P<item_id>[0-9]+)$', views.review, name='review'),
+    url(r'^history$',views.history,name='history'),
+    url(r'^accounting$',views.accounting,name='accounting'),
 ]
