@@ -10,7 +10,6 @@ import datetime
 
 def home(request):
     all_users = User.objects.all()
-    #user_id = request.session['user']
     try:
         loggeduser = User.objects.get(id=request.session['user'])
         print('This is my session id:'+ str(request.session['user']))
@@ -26,12 +25,6 @@ def home(request):
     }
 
     return render(request,'market/index.html',context)
-'''
-	try:
-		loggeduser = User.objects.get(id=request.session['USERZ'])
-	except (KeyError, User.DoesNotExist):
-		loggeduser = 0
-'''
 
 def shop(request):
     all_items = Items.objects.all()
@@ -44,8 +37,6 @@ def shop(request):
     if request.method == "GET":
         if "search-product" in request.GET:
             all_items = Items.objects.filter(name__icontains=request.GET.get("search-product"))
-
-    #if request.POST.get("addcart"):
 
     context = {
         'all_items':all_items,
@@ -406,7 +397,6 @@ def addItem(request):
     if request.method == "POST":
         if form.is_valid():
             item = form.save(commit=False)
-            #item.price = 1000.00
             item.save()
             return redirect('prod')
     
@@ -450,10 +440,8 @@ def userProfile(request, user_id):
 	
 	try:
 		loggeduser = User.objects.get(id=request.session['user'])
-		#print('This is my session id:'+ str(request.session['user']))
 	except(KeyError, User.DoesNotExist):
 		loggeduser = 0
-		#print("No session")
 	
 	context = {
 		'loggeduser':loggeduser,
