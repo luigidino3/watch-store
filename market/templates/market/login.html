@@ -345,31 +345,31 @@
 	<!-- content page -->
 	<section class="bgwhite p-t-66 p-b-60">
 		<div class="container">
-			<div class="row">
+			<center>
 				<div class="col-md-6 p-b-30">
 					<form class="leave-comment" method="POST">
 						{% csrf_token %}
 						{%if error != ''%}
 						<h4 style= "color: #D8000C; background-color: #FFD2D2;vertical-align:middle;"class="p-b-30 p-t-10">
-							Invalid username / password
+							INVALID USER NAME AND/OR PASSWORD
 						</h4>
 						{%endif%}
 
 						<div class="bo4 of-hidden size15 m-b-20"style="margin-top:20px">
 							<input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="username" placeholder="Username">
 						</div>
-
 						<div class="bo4 of-hidden size15 m-b-20">
 							<input class="sizefull s-text7 p-l-22 p-r-22" type="password" name="password" placeholder="Password">
 						</div>
-						
+					<center>
 						<div class="w-size25">
 							<!-- Button -->
-							<input type="submit" style="cursor:pointer;"class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4" value="Login" >
+							<center><input type="submit" style="cursor:pointer;"class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4" value="Login" ></center>
 						</div>
-					</form>
+					</center>
+					</form>				
 				</div>
-			</div>
+			</center>
 		</div>
 	</section>
 

@@ -1,35 +1,159 @@
+<!DOCTYPE html>
+{%load staticfiles%}
+{%load countries%}
+<html lang="en">
 <head>
+<title>Admin</title>
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/themify/themify-icons.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/elegant-font/html-css/style.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/animate/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/slick/slick.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/lightbox2/css/lightbox.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{%static 'css/main.css' %}">
+<!--===============================================================================================-->
+
+<style>
+#create {
+    float: left;
+    width: 50%;
+    border-style: dotted;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 480px;
+}
+
+#disp {
+    float:left;
+    width: 50%;
+    border-style: dotted;
+    overflow-y: scroll;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 480px;
+}
+
+#bot {
+    width: 30%;
+    height: 50px;
+}
+
+#but {
+    width: 30%;
+}
+
+#sel {
+    width: 50%;
+}
+
+#txt {
+    width: 50%;
+}
+
+table {
+    width: 90%;
+}
+
+td,th {
+    width: 300px;
+    text-align: center;
+    padding: 3px;
+}
+
+</style>
 
 </head>
 
 <body>
-    <h1>Welcome to Admin Page!</h1>
-
+    <br>
+    <center><b><h1>Welcome, Admin!</h1></b></center>
+    <br>
     <form method="POST">
-        {% csrf_token %}
-
-        Create Accounts
-        {%if message != ""%}
-        <h1>USERNAME ALREADY TAKEN</h1>
-        {%endif%}
-        <div>
-            <select name="accountType">
+        <div id="create">
+                {% csrf_token %}
+                {%if message != ""%}
+                <center><h2 style= "color: #D8000C; background-color: #FFD2D2;vertical-align:middle;"class="p-b-30 p-t-10">USERNAME ALREADY TAKEN</h2></center>
+                {%endif%}
+            <br>
+            <center>
+            <h4>Create an Account:</h4>
+            <br>
+            <label>Account Type:</label>
+            <br>
+            <select id="sel" name="accountType">
                 <option value="Product Manager">Product Manager</option>
                 <option value="Accounting Manager">Accounting Manager</option>
             </select>
-
+            <br>
+            <br>
             {% for field in form %}
             <div>
                 <label>{{field.label_tag}}</label>
-                <div>{{field}}</div>
+                <div id="txt" class="bo4 of-hidden size02 m-b-20">{{field}}</div>
             </div>
             {% endfor %}
 
-            <input type="submit" value="Create">
+            <input id="but" type="submit" value="Create Account" style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
+        </center>
+        <br>
         </div>
-        <br><br>
-        <button><a href="/logout">Logout</a></button>
-
-
+        <div id="disp">
+            <center>
+                <h4>Existing Accounts:</h4>
+                <br>
+                <table border=1>
+                <tr>
+                    <th>Username</th>
+                    <th>Account Type</th>
+                </tr>
+                {% for i in all_users %}
+                {% if i.accountType != "Customer" and i.accountType != "Admin" %}
+                <tr>
+                <td>
+                {{i.username}}
+                </td>
+                <td>
+                {{i.accountType}}
+                </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+                </table>
+            </center>
+        </div>
+        <center>
+        <div id="bot">
+                &nbsp;<br>
+        <button style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4"><a href="/logout">Logout</a></button>
+        </div>
+        </center>
     </form>
 </body>
+</html>
