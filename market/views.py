@@ -9,6 +9,7 @@ from market.forms import addItems
 import re
 from django.views.decorators.cache import never_cache
 import datetime
+from django.contrib.sessions.models import Session
 
 import logging
 
@@ -326,6 +327,7 @@ def contact(request):
     }
     return render(request,'market/contact.html',context)
 
+@never_cache
 def login(request):
     all_users = User.objects.all()
     error = ''
@@ -337,8 +339,13 @@ def login(request):
         for i in all_users:
             if i.username == username:
                 if i.password == password:
+
+                    my_old_sessions = Session.objects.all()
+                    for row in my_old_sessions:
+                        if row.get_decoded().get("user") == i.id:
+                            row.delete()
+
                     request.session['user'] = i.id
-                    
                     if i.accountType == 'Customer':
                         return redirect('home')
                     elif i.accountType == 'Admin':
