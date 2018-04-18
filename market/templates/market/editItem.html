@@ -1,38 +1,131 @@
+{% load staticfiles %}
 <html>
     <head>
         <title>Edit Item</title>
-        <style>
-                p,h1,h2 {font-family:"Comic Sans MS", cursive, sans-serif;}
-        </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}"/>
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'fonts/themify/themify-icons.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'fonts/elegant-font/html-css/style.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'vendor/animate/animate.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'vendor/animsition/css/animsition.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'vendor/select2/select2.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'vendor/daterangepicker/daterangepicker.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'vendor/slick/slick.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'vendor/lightbox2/css/lightbox.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'css/util.css' %}">
+        <link rel="stylesheet" type="text/css" href="{%static 'css/main.css' %}">
+    <!--===============================================================================================-->
+    
+    <style>
+        	#error {
+		height:100%;
+		width: 100%;
+		display: flex;
+    	justify-content: center;
+		flex-direction: column;
+		background-color: crimson;
+		color: cornsilk;
+	}
+
+	table {
+		width: 80%;
+        align-self: center;
+	}
+
+	td {
+		border: black;
+		border-style: dotted;
+		width: 50%;
+		text-align: center;
+		padding: 10px;
+	}
+
+	#yes {
+		width: 25%;
+		padding: 5px;
+	}
+
+	#cont {
+		align-items: center;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		
+	}
+
+    #tx {
+        border:black;
+        border-style: solid;
+        border-width: thin;
+        padding: 5px;
+    }
+    </style>
     </head>
     <body>
-        <h1>Currently editing: {{item.name}}</h1>
+        <center>
+        <br>
+        <h1>Currently Editing: {{item.name}}</h1>
 
         <div>
+            <table>
             <form method="POST" enctype="multipart/form-data">
             {%csrf_token%}
-            <p>Name of item</p>
-            <input type="text" name="name" value="{{item.name}}">
-
-            <p>Description of item</p>
-            <input type="text" name="desc" value="{{item.description}}" style="height:200px;">
-
-            <p>Price of item</p>
-            <input type="number" name="price" value="{{item.price}}">
-
-            <p>Quantity of Item</p>
-            <input type="number" name="quantity" value="{{item.quantity}}">
-
-            <p>Photo of Item</p>
-            <p>Current IMG:</p>
+            <tr>
+            <td>Name of item</td>
+            <td><input type="text" name="name" value="{{item.name}}" id="tx"></td>
+            </tr>
+            <tr>
+            <td>Description of item</td>
+            <td><input type="text" name="desc" id="tx" value="{{item.description}}" style="height:200px;"></td>
+            </tr>
+            <tr>
+            <td>Price of item</td>
+            <td><input type="number" name="price" id="tx" value="{{item.price}}"></td>
+            </tr>
+            <tr>
+            <td>Quantity of Item</td>
+            <td><input type="number" name="quantity" id="tx" value="{{item.quantity}}"></td>
+            </tr>
+            <tr>
+            <td>Photo of Item</td>
+            <td>
+            <center>
+                Current IMG:<br>
             <img src={{item.photo.url}} height="200px" width="200px">
+            <br>
             {%for field in form%}
             {{field}}
             {%endfor%}
+            </center>
+            </td>
+            </tr>
             <br>
-            <input type="submit" name="save" value="Save">
-            </form>
-            <button><a href="/prodmanagement">Go Back</a></button>
+        </table>
+        <br>
+        <div id="cont">
+        <input id="yes" type="submit" name="save" value="Save" style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
+            </form>&nbsp;
+        <button id="yes" style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4"><a href="/prodmanagement">Go Back</a></button>
         </div>
+        </div>
+    </center>
     </body>
 </html>
