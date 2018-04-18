@@ -533,9 +533,14 @@ def productManagement(request):
                 # add successfully deleted code 
                 return redirect('prod')
         
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
 
     context = {
         'all_items':all_items,
+        'loggeduser': loggeduser,
     }
 
     return render(request,'market/productManager.html',context)
@@ -553,10 +558,16 @@ def productManagementEdit(request,id):
         edited.quantity = request.POST.get("quantity")
         edited.save()
         return redirect('prod')
+
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
         
     context = {
         'item':item,
         'form':form,
+        'loggeduser':loggeduser,
     }
     return render(request,'market/editItem.html',context)
 
@@ -570,9 +581,15 @@ def addItem(request):
             #item.price = 1000.00
             item.save()
             return redirect('prod')
+
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
     
     context = {
         'form':form,
+        'loggeduser':loggeduser,
     }
     return render(request,'market/addItem.html',context)
 
