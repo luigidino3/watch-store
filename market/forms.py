@@ -72,3 +72,12 @@ class creditForm(forms.ModelForm):
         fields = ['cvv', 'cardnumber', 'expiration_date']
 
         widgets = { 'expiration_date':DateInput() }
+
+class changePass(forms.ModelForm):
+
+    class Meta:
+
+        model = User
+        fields = ['password']
+
+        labels = {'password': ('New Password'), }

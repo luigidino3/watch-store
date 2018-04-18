@@ -1,1 +1,100 @@
-<html></html>
+
+{% load staticfiles %}
+<html>
+    <head>
+        <title>Product Management</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--===============================================================================================-->
+        <link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}"/>
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="{%static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="{%static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="{%static 'fonts/themify/themify-icons.css' %}">
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="{%static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="{%static 'fonts/elegant-font/html-css/style.css' %}">
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="{%static 'vendor/animate/animate.css' %}">
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="{%static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="{%static 'vendor/animsition/css/animsition.min.css' %}">
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="{%static 'vendor/select2/select2.min.css' %}">
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="{%static 'vendor/daterangepicker/daterangepicker.css' %}">
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="{%static 'vendor/slick/slick.css' %}">
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="{%static 'vendor/lightbox2/css/lightbox.min.css' %}">
+        <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="{%static 'css/util.css' %}">
+            <link rel="stylesheet" type="text/css" href="{%static 'css/main.css' %}">
+        <!--===============================================================================================-->
+        
+        <style>
+        #error {
+            height:100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            background-color: crimson;
+            color: cornsilk;
+        }
+    
+        table {
+            width: 60%;
+            align-self: center;
+        }
+    
+        td {
+            border: black;
+            border-style: dotted;
+            width: 50%;
+            text-align: center;
+            padding: 10px;
+        }
+    
+        #yes {
+            width: 25%;
+            padding: 5px;
+        }
+    
+        #cont {
+            align-items: center;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            
+        }
+    
+        #tx {
+            border:black;
+            border-style: solid;
+            border-width: thin;
+            padding: 2px;
+        }
+        </style>
+    </head>
+
+    <body>
+        {% if loggeduser.accountType == "Customer" %}
+        <h1>Change Your Password: </h1>
+
+
+        {% else %}
+        <div id="error">
+            <center>
+                <h1>Unauthorized Access!</h1><br>
+                <button onclick="window.history.back()" style="border: 2px solid; padding: 3px;">Go Back</button>
+            </center>
+        </div>
+        {% endif %}
+    </body>
+
+</html>

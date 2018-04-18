@@ -714,3 +714,6 @@ def error_404(request):
 def error_500(request):
         data = {}
         return render(request,'market/error_500.html', data)
+
+def changePass(request, user_id):
+    all_users = User.object.all();
