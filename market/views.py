@@ -446,48 +446,49 @@ def register(request):
 def admin(request):
     form = adminCreate(request.POST or None)
     all_users = User.objects.all()
+    customers = User.objects.filter(accountType='Customer')
+    counts = countess.objects.all()
     message = ""
 
     try:
         loggeduser = User.objects.get(id=request.session['user'])
     except(KeyError, User.DoesNotExist):
         loggeduser = 0
+    if request.method == "POST":
+        if "create" in request.POST:
+            for i in request.POST:
+                print(i)
+            if form.is_valid():
+                if loggeduser == 0:
+                    return redirect('home')
+                account = form.save(commit=False)
+                account.accountType = request.POST.get("accountType")
+                temp = account.username.upper()
+                for i in all_users:
+                    if temp == i.username.upper():
+                        message = "Username already taken!!"
+                        return render(request,'market/adminPage.html',{"form":form,"message":message,'loggeduser':loggeduser,})
+                account.firstName = "a"
+                account.middleInitial = "a"
+                account.lastName = "a"
+                account.email = "a@a.com"
 
-    if form.is_valid():
-        if loggeduser == 0:
-            return redirect('home')
-        account = form.save(commit=False)
-        account.accountType = request.POST.get("accountType")
-        temp = account.username.upper()
-        for i in all_users:
-            if temp == i.username.upper():
-                message = "Username already taken!!"
-                return render(request,'market/adminPage.html',{"form":form,"message":message})
-        account.firstName = "a"
-        account.middleInitial = "a"
-        account.lastName = "a"
-        account.email = "a@a.com"
+                account.BhouseNo = 1
+                account.Bstreet = "a"
+                account.Bsubdivision = "a"
+                account.Bcity = "a"
+                account.BpostalCode = 1
+                account.Bcountry = "NZ"
 
-        account.BhouseNo = 1
-        account.Bstreet = "a"
-        account.Bsubdivision = "a"
-        account.Bcity = "a"
-        account.BpostalCode = 1
-        account.Bcountry = "NZ"
+                account.ShouseNo  = 1
+                account.Sstreet = "a"
+                account.Ssubdivision = "a"
+                account.Scity = "a"
+                account.SpostalCode = 1
+                account.Scountry = "NZ"
 
-        account.ShouseNo  = 1
-        account.Sstreet = "a"
-        account.Ssubdivision = "a"
-        account.Scity = "a"
-        account.SpostalCode = 1
-        account.Scountry = "NZ"
-
-        account.save()
-
-        ##PRINT SUCCESSFULLY CREATED ACCOUNT
-        ##Redirect back to admin page
-        return redirect('adminPage')
-
+                account.save()
+                return redirect('adminPage')
     #admin_accounts = User.objects.filter(accountType__contains="Accounting Manager").filter(accountType__contains="Product Manager")
         
     context = {
@@ -495,9 +496,30 @@ def admin(request):
         'message':message,
         'all_users':all_users,
         'loggeduser':loggeduser,
+        'customers':customers,
+        'counts':counts,
     }
     return render(request,'market/adminPage.html',context)
 
+def resetaccount(request):
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
+    
+    if request.method == "POST":
+        for i in request.POST:
+            print(i)
+            if i[:4] == "del-":
+                toDel = i[4:]
+                print(toDel)
+                nakuha = User.objects.get(id=toDel)
+                item1 = countess.objects.get(user=nakuha)
+                item1.number = 0
+                item1.save()
+                return redirect('adminPage')
+
+    return redirect('adminPage')
 @never_cache
 def productManagement(request):
     all_items = Items.objects.all()

@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^review/(?P<item_id>[0-9]+)$', views.review, name='review'),
     url(r'^history$',views.history,name='history'),
     url(r'^accounting$',views.accounting,name='accounting'),
+    url(r'^resetaccount$',views.resetaccount,name='reset'),
 ]

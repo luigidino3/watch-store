@@ -135,10 +135,11 @@ td,th {
             </div>
             {% endfor %}
 
-            <input id="but" type="submit" value="Create Account" style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
+            <input name="create" id="but" type="submit" value="Create Account" style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
         </center>
         <br>
         </div>
+        </form>
         <div id="disp">
             <center>
                 <h4>Existing Accounts:</h4>
@@ -163,13 +164,41 @@ td,th {
                 </table>
             </center>
         </div>
+
+        <form method="POST" action="/resetaccount">
+                {%csrf_token%}
+                <center>
+                    
+                <table border=1>
+                        <h2>Customer Accounts</h2>
+                    <tr>
+                        <th name="HEY">Name</th>
+                        <th>Number of Incorrect Login Attempts</th>
+                        <th></th>
+                    </tr>
+                    {%for cust in customers %}
+                    <tr>
+                        <th>{{cust.firstName}} {{cust.lastName}}</th>
+                        {%for i in counts%}
+                        {%if i.user == cust%}
+                        <th>{{i.number}}</th>
+                        {%endif%}
+                        {%endfor%}
+                        <th><center><button name="del-{{cust.id}}" id="but" type="submit" value="del-{{cust.id}}" style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">Reset Account</button></center></th>
+                    </tr>
+                    {%endfor%}
+    
+                </table>
+                </center>
+            </form>
+
         <center>
         <div id="bot">
                 &nbsp;<br>
-        <button style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4"><a href="/logout">Logout</a></button>
+        <button style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4"><a style="color: white"href="/logout">Logout</a></button>
         </div>
         </center>
-    </form>
+
     {% else %}
     <div id="error">
             <center>
