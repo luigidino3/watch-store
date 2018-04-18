@@ -13,6 +13,14 @@ from django.contrib.sessions.models import Session
 
 import logging
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s : %(message)s ')
+file_handler = logging.FileHandler('log.log')
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
+
+
 def ValidatingPassword(account):
 	MIN_LENGTH = 8
 	capital = 0
@@ -66,9 +74,11 @@ def home(request):
     try:
         loggeduser = User.objects.get(id=request.session['user'])
         print('This is my session id:'+ str(request.session['user']))
+        logger.info(loggeduser.username + " visited Home Page : index.html : Success")
     except(KeyError, User.DoesNotExist):
         loggeduser = 0
         print("No session")
+        logger.info("Anonymous visited Home Page : index.html : Success")
 
     all_items = Items.objects.all()
     all_items = Items.objects.order_by('quantity')[:8]
@@ -78,6 +88,7 @@ def home(request):
     }
 
     return render(request,'market/index.html',context)
+
 '''
     try:
         loggeduser = User.objects.get(id=request.session['USERZ'])
@@ -91,14 +102,47 @@ def shop(request):
     message = "All"
     try:
         loggeduser = User.objects.get(id=request.session['user'])
+        logger.info(loggeduser.username + " visited Product Page : product.html : Success")
     except(KeyError, User.DoesNotExist):
         loggeduser = 0
+        logger.info("Anonymous visited Product Page : product.html : Success")
     
     if request.method == "GET":
         if "search-product" in request.GET:
             all_items = Items.objects.filter(name__icontains=request.GET.get("search-product"))
+            if loggeduser == 0:
+                logger.info("Anonymous searched for " + request.GET.get("search-product") + " : product.html : Success")
+            else:
+                logger.info(loggeduser.username + " searched for " + request.GET.get("search-product") + " : product.html : Success")
 
-    #if request.POST.get("addcart"):
+    context = {
+        'all_items':all_items,
+        'loggeduser':loggeduser,
+        'message':message,
+    }
+
+    return render(request,'market/product.html',context)
+
+
+@never_cache
+def shopAnalog(request):
+    all_items = Items.objects.all()
+    all_items = Items.objects.filter(itemtype__contains="Analog")
+    message = "Analog"
+
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+        logger.info(loggeduser.username + " filtered for Analog Watches : product.html : Success")
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
+        logger.info("Anonymous filtered for Analog Watches : product.html : Success")    
+    if request.method == "GET":
+        if "search-product" in request.GET:
+            all_items = Items.objects.filter(name__icontains=request.GET.get("search-product"))
+            if loggeduser == 0:
+                logger.info("Anonymous searched for " + request.GET.get("search-product") + " : product.html : Success")
+            else:
+                logger.info(loggeduser.username + " searched for " + request.GET.get("search-product") + " : product.html : Success")
 
     context = {
         'all_items':all_items,
@@ -109,29 +153,6 @@ def shop(request):
     return render(request,'market/product.html',context)
 
 @never_cache
-def shopAnalog(request):
-    all_items = Items.objects.all()
-    all_items = Items.objects.filter(itemtype__contains="Analog")
-    message = "Analog"
-
-    try:
-        loggeduser = User.objects.get(id=request.session['user'])
-    except(KeyError, User.DoesNotExist):
-        loggeduser = 0
-    
-    if request.method == "GET":
-        if "search-product" in request.GET:
-            all_items = Items.objects.filter(name__icontains=request.GET.get("search-product"))
-
-    context = {
-        'all_items':all_items,
-        'loggeduser':loggeduser,
-        'message':message,
-    }
-
-    return render(request,'market/product.html',context)  
-
-@never_cache
 def shopDigital(request):
     all_items = Items.objects.all()
     all_items = Items.objects.filter(itemtype__contains="Digital")
@@ -139,12 +160,17 @@ def shopDigital(request):
 
     try:
         loggeduser = User.objects.get(id=request.session['user'])
+        logger.info(loggeduser.username + " filtered for Digital Watches : product.html : Success")
     except(KeyError, User.DoesNotExist):
         loggeduser = 0
-    
+        logger.info("Anonymous filtered for Digital Watches : product.html : Success")    
     if request.method == "GET":
         if "search-product" in request.GET:
             all_items = Items.objects.filter(name__icontains=request.GET.get("search-product"))
+            if loggeduser == 0:
+                logger.info("Anonymous searched for " + request.GET.get("search-product") + " : product.html : Success")
+            else:
+                logger.info(loggeduser.username + " searched for " + request.GET.get("search-product") + " : product.html : Success")
 
     context = {
         'all_items':all_items,
@@ -152,7 +178,7 @@ def shopDigital(request):
         'message':message,
     }
 
-    return render(request,'market/product.html',context)  
+    return render(request,'market/product.html',context)
 
 @never_cache
 def shopSmart(request):
@@ -162,12 +188,17 @@ def shopSmart(request):
 
     try:
         loggeduser = User.objects.get(id=request.session['user'])
+        logger.info(loggeduser.username + " filtered for Smart Watches : product.html : Success")
     except(KeyError, User.DoesNotExist):
         loggeduser = 0
-    
+        logger.info("Anonymous filtered for Smart Watches : product.html : Success")    
     if request.method == "GET":
         if "search-product" in request.GET:
             all_items = Items.objects.filter(name__icontains=request.GET.get("search-product"))
+            if loggeduser == 0:
+                logger.info("Anonymous searched for " + request.GET.get("search-product") + " : product.html : Success")
+            else:
+                logger.info(loggeduser.username + " searched for " + request.GET.get("search-product") + " : product.html : Success")
 
     context = {
         'all_items':all_items,
@@ -175,7 +206,7 @@ def shopSmart(request):
         'message':message,
     }
 
-    return render(request,'market/product.html',context)  
+    return render(request,'market/product.html',context)
 
 @never_cache            
 def cart(request, user_id):
@@ -188,9 +219,10 @@ def cart(request, user_id):
 
     try:
         loggeduser = User.objects.get(id=request.session['user'])
-        
+        logger.info(loggeduser.username + " visited Cart Page : cart.html : Success")
     except(KeyError, User.DoesNotExist):
         loggeduser = 0
+        logger.info("Anonymous visited Cart Page : cart.html : Fail")    
     
     cart_total = 0
     for itemz in cart_itemz:
@@ -238,10 +270,12 @@ def cart(request, user_id):
                             trans_item.user = userr
                             trans_item.save()
                             itemz.delete()
+                        logger.info(loggeduser.username + " successfully checked out : cart.html : Success")
                         return redirect('history')
                         return redirect('cart',user_id=loggeduser.id)
                     else:
                         message = "Card is expired"
+                        logger.info(loggeduser.username + " card is expired : cart.html : Fail")
                         context = {
                             'cart_itemz':cart_itemz,
                             'loggeduser':loggeduser,
@@ -253,6 +287,7 @@ def cart(request, user_id):
                         return render(request,'market/cart.html',context)
                 else:
                     message = "incorrect credit card number"
+                    logger.info(loggeduser.username + " incorrect credit card number : cart.html : Fail")
                     context = {
                         'cart_itemz':cart_itemz,
                         'loggeduser':loggeduser,
@@ -265,6 +300,7 @@ def cart(request, user_id):
                     return render(request,'market/cart.html',context)
             else: 
                 message = "incorrect cvv"
+                logger.info(loggeduser.username + " incorrect CVV : cart.html : Fail")
                 context = {
                     'cart_itemz':cart_itemz,
                     'loggeduser':loggeduser,
@@ -281,6 +317,7 @@ def cart(request, user_id):
                     toDel = i[4:]
                     print(toDel)
                     item1 = CartItem.objects.get(id=toDel)
+                    logger.info(loggeduser.username + " removed " + item1 + " from cart : cart.html : Success")
                     item1.delete()
                     return redirect('cart',user_id=loggeduser.id)
 
@@ -302,14 +339,17 @@ def review(request,item_id):
         for i in transactions:
             if i.item.name == item.name:
                 checker = 1
+                logger.info(loggeduser.username + " visiting Review page : review.html : Success")
     except(KeyError, TransactionItem.DoesNotExist):
         transactions = 0
+        logger.info(loggeduser.username + " visiting Review page : review.html : Fail")
 
     if request.method == "POST":
         review = form.save(commit=False)
         review.user = loggeduser
         review.item = Items.objects.get(id=item_id)
         review.save()
+        logger.info(loggeduser.username + " wrote a review for " + Items.objects.get(id=item_id) + " : review.html : Success")
         return redirect('userprofile',user_id=loggeduser.id)
     context = {
         'form':form,
@@ -319,22 +359,28 @@ def review(request,item_id):
     }
     return render(request, 'market/review.html', context)
 
+@never_cache
 def about(request):
     try:
         loggeduser = User.objects.get(id=request.session['user'])
+        logger.info(loggeduser.username + " visited About Page : about.html : Success")
     except(KeyError, User.DoesNotExist):
         loggeduser = 0
+        logger.info("Anonymous visited About Page : about.html : Success")    
     
     context = {
         'loggeduser':loggeduser,
     }
     return render(request,'market/about.html',context)
 
+@never_cache
 def contact(request):
     try:
         loggeduser = User.objects.get(id=request.session['user'])
+        logger.info(loggeduser.username + " visited About Page : about.html : Success")
     except(KeyError, User.DoesNotExist):
         loggeduser = 0
+        logger.info("Anonymous visited About Page : about.html : Success")    
     
     context = {
         'loggeduser':loggeduser,
@@ -392,6 +438,13 @@ def login(request):
     return render(request,'market/login.html',context)
 
 def logout(request):
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+        logger.info(loggeduser.username + " sucessfully logged out : logout.html : Success")
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
+        logger.info("Anonymous visited logout : logout.html : 404 error")
+
     del request.session['user']
     return redirect('home')
 
@@ -456,8 +509,12 @@ def admin(request):
 
     try:
         loggeduser = User.objects.get(id=request.session['user'])
+        if loggeduser.username != "admin":    
+            logger.info(loggeduser.username + " visited admin page : adminPage.html : Fail")
     except(KeyError, User.DoesNotExist):
         loggeduser = 0
+        logger.info("Anonymous visited admin page : adminPage.html : Fail")
+
     if request.method == "POST":
         if "create" in request.POST:
             for i in request.POST:
@@ -524,9 +581,19 @@ def resetaccount(request):
                 return redirect('adminPage')
 
     return redirect('adminPage')
+    
 @never_cache
 def productManagement(request):
     all_items = Items.objects.all()
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+        if loggeduser.accountType != "Product Manager":
+            logger.info(loggeduser.username + " visited product management page : productManager.html : Fail")
+        else:
+            logger.info(loggeduser.username + " visited product management page : productManager.html : Success")            
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
+        logger.info("Anonymous visited product management page : productManager.html : Fail")    
 
     if request.method == "POST":
         for item in request.POST:
@@ -534,13 +601,9 @@ def productManagement(request):
                 print(item[7:])
                 toDel = Items.objects.get(pk=item[7:])
                 toDel.delete()
+                logger.info(loggeduser.username + " deleted item " + Items.objects.get(pk=item[7:]) + " : productManager.html : Success")
                 # add successfully deleted code 
                 return redirect('prod')
-        
-    try:
-        loggeduser = User.objects.get(id=request.session['user'])
-    except(KeyError, User.DoesNotExist):
-        loggeduser = 0
 
     context = {
         'all_items':all_items,
@@ -554,6 +617,16 @@ def productManagementEdit(request,id):
     item = Items.objects.get(pk=id)
     form = uploadPhoto(request.POST,request.FILES or None,instance=item)
 
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+        if loggeduser.accountType != "Product Manager":
+            logger.info(loggeduser.username + " visited product editor page : editItem.html : Fail")
+        else:
+            logger.info(loggeduser.username + " visited product editor page : editItem.html : Success")            
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
+        logger.info("Anonymous visited product editor page : editItem.html : Fail")    
+
     if request.method == "POST":
         edited = form.save(commit=False)
         edited.name = request.POST.get("name")
@@ -561,12 +634,8 @@ def productManagementEdit(request,id):
         edited.price = request.POST.get("price")
         edited.quantity = request.POST.get("quantity")
         edited.save()
+        logger.info(loggeduser.username + " successfully edited product : editItem.html : Success")                    
         return redirect('prod')
-
-    try:
-        loggeduser = User.objects.get(id=request.session['user'])
-    except(KeyError, User.DoesNotExist):
-        loggeduser = 0
         
     context = {
         'item':item,
@@ -579,17 +648,24 @@ def productManagementEdit(request,id):
 def addItem(request):
     form = addItems(request.POST,request.FILES or None)
 
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+        if loggeduser.accountType != "Product Manager":
+            logger.info(loggeduser.username + " visited product editor page : editItem.html : Fail")
+        else:
+            logger.info(loggeduser.username + " visited product editor page : editItem.html : Success")            
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
+        logger.info("Anonymous visited product editor page : editItem.html : Fail")    
+
+
     if request.method == "POST":
         if form.is_valid():
             item = form.save(commit=False)
             #item.price = 1000.00
             item.save()
+            logger.info(loggeduser.username + " successfully added item : addItem.html : Success")
             return redirect('prod')
-
-    try:
-        loggeduser = User.objects.get(id=request.session['user'])
-    except(KeyError, User.DoesNotExist):
-        loggeduser = 0
     
     context = {
         'form':form,
@@ -606,10 +682,13 @@ def productDetails(request,id):
     all_reviews = Review.objects.all()
     all_reviews = Review.objects.filter(item=item)
     print(item.itemtype)
+
     try:
         loggeduser = User.objects.get(id=request.session['user'])
+        logger.info(loggeduser.username + " visited product detail page : product-detail.html : Success")
     except(KeyError, User.DoesNotExist):
         loggeduser = 0
+        logger.info("Anonymous visited product detail page : product-detail.html : Success")    
 
     if request.method == "POST":
         cart_item = CartItem()
@@ -617,7 +696,7 @@ def productDetails(request,id):
         cart_item.user = loggeduser
         cart_item.item = item
         cart_item.save()
-
+        logger.info(loggeduser.username + " added " + item + " to cart : product-detail.html : Success")        
         return redirect('cart',user_id=loggeduser.id)
 
     context = {
@@ -634,10 +713,10 @@ def userProfile(request, user_id):
     
     try:
         loggeduser = User.objects.get(id=request.session['user'])
-        #print('This is my session id:'+ str(request.session['user']))
+        logger.info(loggeduser.username + " visited profile : userprofile.html : Success")
     except(KeyError, User.DoesNotExist):
         loggeduser = 0
-        #print("No session")
+        logger.info("Anonymous visited profile : userprofile.html : Fail")    
     
     context = {
         'loggeduser':loggeduser,
@@ -675,8 +754,10 @@ def editProfile(request,user_id):
 def history(request):
     try:
         loggeduser = User.objects.get(id=request.session['user'])
-    except:
+        logger.info(loggeduser.username + " visited transaction history : history.html : Success")
+    except(KeyError, User.DoesNotExist):
         loggeduser = 0
+        logger.info("Anonymous visited transaction history : history.html : Fail")   
 
     all_items = TransactionItem.objects.all()
     all_items = TransactionItem.objects.filter(user__username__contains=loggeduser.username)
@@ -729,12 +810,24 @@ def accounting(request):
 
 
 def error_404(request):
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+        logger.info(loggeduser.username + " got a 404 error : error_404.html : 404 error")
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
+        logger.info("Anonymous got a 404 error : error_404.html : 404 error")   
         data = {}
         return render(request,'market/error_404.html', data)
  
 def error_500(request):
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+        logger.info(loggeduser.username + " got a 404 error : error_404.html : 404 error")
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
+        logger.info("Anonymous got a 404 error : error_404.html : 404 error")
         data = {}
         return render(request,'market/error_500.html', data)
 
 def changePass(request, user_id):
-    all_users = User.object.all();
+    all_users = User.object.all()
