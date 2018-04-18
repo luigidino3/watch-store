@@ -404,7 +404,11 @@ def register(request):
     if form.is_valid():
         account = form.save(commit=False)
         account.accountType = "Customer"
+        confpass = request.POST['conpass']
 
+        if account.password != confpass:
+            message = "Passwords don't match"
+            return render(request,'market/signup.html',{'form':form,'message':message})
         if not re.match(r"^[a-zA-z]{1,25}$",account.firstName):
             message = "Invalid first name"
             return render(request,'market/signup.html',{'form':form,'message':message}) 
