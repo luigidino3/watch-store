@@ -10,6 +10,8 @@ import re
 
 import datetime
 
+import logging
+
 def home(request):
     all_users = User.objects.all()
     #user_id = request.session['user']
@@ -302,8 +304,8 @@ def login(request):
 
 def logout(request):
     del request.session['user']
-    return redirect('home')
-
+    return render(request,'market/logout.html',{})
+    
 def register(request):
     form = createAccount(request.POST or None)
     all_users = User.objects.all()
@@ -312,6 +314,13 @@ def register(request):
     if form.is_valid():
         account = form.save(commit=False)
         account.accountType = "Customer"
+
+        if not re.match(r'^[A-Za-z]{1,25}$',str(account.firstName)):
+            print(account.firstName)   
+            print("HELLO")
+            message = "Invalid firstname"
+            return render(request,'market/signup.html',{'form':form,'message':message})
+
         for i in all_users:
             if account.username == i.username:
                 message = "Username already taken"
@@ -333,6 +342,8 @@ def admin(request):
         loggeduser = 0
 
     if form.is_valid():
+        if loggeduser == 0:
+            return redirect('home')
         account = form.save(commit=False)
         account.accountType = request.POST.get("accountType")
         for i in all_users:
