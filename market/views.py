@@ -315,12 +315,22 @@ def register(request):
         account = form.save(commit=False)
         account.accountType = "Customer"
 
-        if not re.match(r'^[A-Za-z]{1,25}$',str(account.firstName)):
-            print(account.firstName)   
-            print("HELLO")
-            message = "Invalid firstname"
+        if not re.match(r"^[a-zA-z]{1,25}$",account.firstName):
+            message = "Invalid first name"
+            return render(request,'market/signup.html',{'form':form,'message':message}) 
+        if not re.match(r"^([A-Z]{1}[.]{1})*$",account.middleInitial):
+            message = "Invalid middle initial"
             return render(request,'market/signup.html',{'form':form,'message':message})
-
+        if not re.match(r"^[a-zA-z]{1,25}$",account.lastName):
+            message = "Invalid last name"
+            return render(request,'market/signup.html',{'form':form,'message':message})
+        if not re.match(r"^[A-Za-z]*$",account.Bcity):
+            message = "Invalid billing city"
+            return render(request,'market/signup.html',{'form':form,'message':message})
+        if not re.match(r"^[A-Za-z]*$",account.Scity):
+            message = "Invalid shipping city"
+            return render(request,'market/signup.html',{'form':form,'message':message})
+        
         for i in all_users:
             if account.username == i.username:
                 message = "Username already taken"
