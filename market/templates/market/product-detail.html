@@ -36,6 +36,19 @@
 <link rel="stylesheet" type="text/css" href="{%static 'css/util.css' %}">
 <link rel="stylesheet" type="text/css" href="{%static 'css/main.css' %}">
 <!--===============================================================================================-->
+
+<style>
+#error {
+		height:100%;
+		width: 100%;
+		display: flex;
+    	justify-content: center;
+		flex-direction: column;
+		background-color: crimson;
+		color: cornsilk;
+	}
+</style>
+
 </head>
 {% if loggeduser.accountType == "Customer" or loggeduser == 0 %}
 <body class="animsition">
