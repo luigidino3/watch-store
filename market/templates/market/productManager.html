@@ -82,6 +82,7 @@
 </head>
 
 <body>
+    {% if loggeduser.accountType == 'Product Manager' %}
     <center>
         <br>
     <h1>Product Manager Page</h1>
@@ -118,6 +119,15 @@
         </table>
     </div>
     </center>
+    {% else %}
+    <div id="error">
+            <center>
+                <h1>Unauthorized Access!</h1>
+                <a href="/">Go Back to Home</a>
+            </center>
+    </div>
+    {% endif %}
+
 </body>
 
 </html>

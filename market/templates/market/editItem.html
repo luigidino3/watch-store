@@ -80,6 +80,7 @@
     </style>
     </head>
     <body>
+        {% if loggeduser.accountType == 'Product Manager' %}
         <center>
         <br>
         <h1>Currently Editing: {{item.name}}</h1>
@@ -127,5 +128,13 @@
         </div>
         </div>
     </center>
+    {% else %}
+    <div id="error">
+            <center>
+                <h1>Unauthorized Access!</h1>
+                <a href="/">Go Back to Home</a>
+            </center>
+    </div>
+    {% endif %}
     </body>
 </html>
