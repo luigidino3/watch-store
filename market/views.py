@@ -414,6 +414,12 @@ def register(request):
         if not re.match(r"^[a-zA-z]{1,25}$",account.lastName):
             message = "Invalid last name"
             return render(request,'market/signup.html',{'form':form,'message':message})
+        if account.username in ['11111111','12345678', 'abcd1234', 'account1', 'administrator', 'monkey123', 'username', 'qwertyuiop', 'test1234']:
+            message = "Invalid Username: Common Username"
+            return render(request,'market/signup.html',{'form':form,'message':message})
+        if account.password in ['12345678', '11111111', 'password', 'letmein1', 'administrator', 'account1', 'qwertyuiop', 'basketball', 'testtest']:
+            message = "Invalid Password: Common Password"
+            return render(request,'market/signup.html',{'form':form,'message':message})
         if ValidatingPassword(account) != "NO PROBLEM":
             message = ValidatingPassword(account)
             return render(request,'market/signup.html',{'form':form,'message':message})
