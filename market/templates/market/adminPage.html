@@ -87,11 +87,22 @@ td,th {
     padding: 3px;
 }
 
+#error {
+		height:100%;
+		width: 100%;
+		display: flex;
+    	justify-content: center;
+		flex-direction: column;
+		background-color: crimson;
+		color: cornsilk;
+	}
+
 </style>
 
 </head>
 
 <body>
+    {% if loggeduser.accountType == "Admin" %}
     <br>
     <center><b><h1>Welcome, Admin!</h1></b></center>
     <br>
@@ -155,5 +166,13 @@ td,th {
         </div>
         </center>
     </form>
+    {% else %}
+    <div id="error">
+            <center>
+                <h1>Unauthorized Access!</h1>
+                <a href="/">Go Back to Home</a>
+            </center>
+    </div>
+    {% endif %}
 </body>
 </html>

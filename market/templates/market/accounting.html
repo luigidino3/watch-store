@@ -1,60 +1,165 @@
+{%load staticfiles%}
 <html>
     <head>
-        <title>Accounting Page</title>
+        <title>Accounting Manager</title>
+        <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/themify/themify-icons.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/elegant-font/html-css/style.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/animate/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/slick/slick.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/lightbox2/css/lightbox.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{%static 'css/main.css' %}">
+<!--===============================================================================================-->
+
+<style>
+	#error {
+		height:100%;
+		width: 100%;
+		display: flex;
+    	justify-content: center;
+		flex-direction: column;
+		background-color: crimson;
+		color: cornsilk;
+	}
+
+	table {
+		width: 90%;
+	}
+
+	td, td {
+		border: black;
+		border-style: dotted;
+		width: 50%;
+		text-align: center;
+		padding: 10px;
+	}
+
+	#yes {
+		width: 25%;
+		padding: 5px;
+        float: left;
+	}
+
+	#cont {
+		align-items: center;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		
+	}
+
+    #tx {
+        border:black;
+        border-style: solid;
+        border-width: thin;
+        padding: 2px;
+    }
+
+</style>
     </head>
     <body>
-        <h1>Currently Viewing: {{message}}</h1>
+        {% if loggeduser.accountType == "Accounting Manager" %}
+        <center>
+        <h1>Welcome, Accounting Manager!</h1><br>
+        <h2>Currently Viewing: {{message}}</h2>
+        <div id="cont">
         <form method="GET">
-        <button name="all">All Total Sales</button>
-        <button name="smart">All Smart Watches Sales</button>
-        <button name="analog">All Analog Watches Sales</button>
-        <button name="digital">All Digital Watches Sales</button>
+        <div id="yes"><button name="all" style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">All Total Sales</button></div>
+        <div id="yes"><button name="smart" style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">All Smart Watches Sales</button></div>
+        <div id="yes"><button name="analog" style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">All Analog Watches Sales</button></div>
+        <div id="yes"><button name="digital" style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">All Digital Watches Sales</button></div>
         </form>
+        </div>
         
-        <form method="GET">
-        <select name="item">
-            {%for item in all_items%}
-            <option value="{{item.name}}">{{item.name}}</option>
-            {%endfor%}
-        </select>
-        <input type="submit">
-        </form>
 
-        <button><a href="/logout">Logout</a></button>
+        <br>
+        <form method="GET">
+                <select name="item" style="width: 20%;">
+                    {%for item in all_items%}
+                    <option value="{{item.name}}">{{item.name}}</option>
+                    {%endfor%}
+                </select>
+        <div id="cont">
+        <div id="yes">
+        <input type="submit" style="cursor:pointer;" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
+        </div>
+        </form>
+        </div>
+
+        <br>
         <table>
             <tr>
-                <th>Date</th>
-                <th>User</th>
-                <th>Item</th>
-                <th>Cost</th>
-                <th>Quantity</th>
-                <th></th>
+                <td>Date</th>
+                <td>User</th>
+                <td>Item</th>
+                <td>Cost</th>
+                <td>Quantity</th>
+                <td></th>
             </tr>
             {%for field in transactions%}
             <tr>
-                <th>{{field.trans_date}}</th>
-                <th>{{field.user.username}}</th>
-                <th>{{field.item.name}}</th>
-                <th>{{field.item.price}}</th>
-                <th>{{field.quantity}}</th>
-                <th>{%widthratio field.item.price 1 field.quantity%}</th>
+                <td>{{field.trans_date}}</th>
+                <td>{{field.user.username}}</th>
+                <td>{{field.item.name}}</th>
+                <td>{{field.item.price}}</th>
+                <td>{{field.quantity}}</th>
+                <td>{%widthratio field.item.price 1 field.quantity%}</th>
             </tr>
             {%endfor%}
             <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <td></th>
+                    <td></th>
+                    <td></th>
+                    <td></th>
+                    <td></th>
                 </tr>
                 
             <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th>SUBTOTAL: </th>
-                <th>{{total}}</th>
+                <td></th>
+                <td></th>
+                <td></th>
+                <td>SUBTOTAL: </th>
+                <td>{{total}}</th>
             </tr>
         </table>
+        <br>
+        <div id="cont">
+        <div id="yes">
+        <button style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4"><a href="/logout">Logout</a></button>
+        </div>
+        </div>
+    </center>
+    {% else %}
+    <div id="error">
+            <center>
+                <h1>Unauthorized Access!</h1>
+                <a href="/">Go Back to Home</a>
+            </center>
+    </div>
+    {% endif %}
     </body>
 </html>

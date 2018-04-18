@@ -1,27 +1,123 @@
+{% load staticfiles %}
 <html>
     <head>
-        <title>History of transactions</title>
+        <title>Transaction History</title>
+
+        <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/themify/themify-icons.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/elegant-font/html-css/style.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/animate/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/slick/slick.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/lightbox2/css/lightbox.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{%static 'css/main.css' %}">
+<!--===============================================================================================-->
+
+<style>
+	#error {
+		height:100%;
+		width: 100%;
+		display: flex;
+    	justify-content: center;
+		flex-direction: column;
+		background-color: crimson;
+		color: cornsilk;
+	}
+
+	table {
+		width: 90%;
+	}
+
+	td,th {
+		border: black;
+		border-style: dotted;
+		width: 20%;
+		text-align: center;
+		padding: 10px;
+	}
+
+	#yes {
+		width: 25%;
+		padding: 5px;
+	}
+
+	#cont {
+		align-items: center;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		
+	}
+
+    #tx {
+        border:black;
+        border-style: solid;
+        border-width: thin;
+        padding: 2px;
+    }
+
+    </style>
     </head>
+
     <body>
-        <h1>All past transactions</h1>
+        {% if loggeduser != 0 %}
+        <center>
+            <br>
+        <h1>Your Past Transactions:</h1>
         <br>
         <table>
         <tr>
             <th>Date</th>
-            <th>Item name</th>
+            <th>Item Name</th>
             <th>Quantity</th>
             <th></th>
         </tr>
         {%for item in all_items%}
         <tr>
-            <th>{{item.trans_date}}</th>
-            <th>{{item.item.name}}</th>
-            <th>{{item.quantity}}</th>
-            <th><button><a href="/review/{{item.item.id}}">Review this item!</a></button></th>
+            <td>{{item.trans_date}}</td>
+            <td>{{item.item.name}}</td>
+            <td>{{item.quantity}}</td>
+            <td><button style="cursor:pointer;" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4"><a href="/review/{{item.item.id}}">Review this item!</a></button></td>
         </tr>
         {%endfor%}
         </table>
-
-        <button><a href="/userprofile/{{loggeduser.id}}">Go back to profile</a></button>
+        <br>
+        <div id="yes">
+        <button style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
+            <a href="/userprofile/{{loggeduser.id}}">Go back to profile</a>
+        </button>
+        </div>
+    </center>
+    {% else %}
+    <div id="error">
+            <center>
+                <h1>Unauthorized Access!</h1>
+                <a href="/">Go Back to Home</a>
+            </center>
+    </div>
+    {% endif %}
     </body>
 </html>

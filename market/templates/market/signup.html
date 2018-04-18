@@ -346,7 +346,7 @@
 	<!-- content page -->
 	<section class="bgwhite p-t-66 p-b-60">
 		<div class="container">
-			<div class="row">
+			<center>
 				<div class="col-md-6 p-b-30">
 					<form class="leave-comment" method="POST">
 						{% csrf_token %}
@@ -355,38 +355,11 @@
 							{{message}}
 						</h4>
 						{%endif%}
-
-						<!--
-						<p class="m-text21">First Name</p>
-
-						<div class="bo4 of-hidden size15 m-b-20"style="">
-							<input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="firstName" placeholder="">
-						</div>
-
-						<p class="m-text21">Middle Initial</p>
-
-						<div class="bo4 of-hidden size15 m-b-20"style="">
-							<input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="firstName" placeholder="">
-						</div>
-
-						<p class="m-text21">Last Name</p>
-
-						<div class="bo4 of-hidden size15 m-b-20"style="">
-							<input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="firstName" placeholder="">
-						</div>
-
-						<div class="bo4 of-hidden size15 m-b-20">
-							<input class="sizefull s-text7 p-l-22 p-r-22" type="password" name="password" placeholder="Password">
-						</div>
-
-						
-							
-						-->
-
 						{%for i in form%}
+						
 						<p>{{i.label_tag}}</p>
 						<div class="bo4 of-hidden size02 m-b-20"style="">
-							<div class="sizefull s-text7 p-l-22 p-r-22">{{i}}</div>
+						{{i}}
 						</div>
 						{%endfor%}
 
@@ -396,7 +369,7 @@
 						
 					</form>
 				</div>
-			</div>
+			</center>
 		</div>
 	</section>
 

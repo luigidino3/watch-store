@@ -1,37 +1,123 @@
+{% load staticfiles %}
 <html>
-
 <head>
     <title>Product Management</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}"/>
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'fonts/themify/themify-icons.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'fonts/elegant-font/html-css/style.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'vendor/animate/animate.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'vendor/animsition/css/animsition.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'vendor/select2/select2.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'vendor/daterangepicker/daterangepicker.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'vendor/slick/slick.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'vendor/lightbox2/css/lightbox.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{%static 'css/util.css' %}">
+        <link rel="stylesheet" type="text/css" href="{%static 'css/main.css' %}">
+    <!--===============================================================================================-->
+    
     <style>
-        p,h1,h2 {font-family:"Comic Sans MS", cursive, sans-serif;}
+        	#error {
+		height:100%;
+		width: 100%;
+		display: flex;
+    	justify-content: center;
+		flex-direction: column;
+		background-color: crimson;
+		color: cornsilk;
+	}
+
+	table {
+		width: 60%;
+        align-self: center;
+	}
+
+	td {
+		border: black;
+		border-style: dotted;
+		width: 50%;
+		text-align: center;
+		padding: 10px;
+	}
+
+	#yes {
+		width: 25%;
+		padding: 5px;
+	}
+
+	#cont {
+		align-items: center;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		
+	}
+
+    #tx {
+        border:black;
+        border-style: solid;
+        border-width: thin;
+        padding: 2px;
+    }
     </style>
 </head>
 
 <body>
+    <center>
+        <br>
     <h1>Product Manager Page</h1>
-    <button><a href="/logout">Logout</a></button>
+    <br>
+    <div id="cont">
+    <div id="yes"><button style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4"><a href="/logout">Logout</a></button></div>
+    <div id="yes"><button style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4"><a href="/prodmanagement/add">Add a new Product</a></button></div>
+    </div>
     <div>
-        <h2>All Products</h2>
-
-        <button><a href="/prodmanagement/add">Add a new Product</a></button>
+        <br>        
+        <h2>All Products</h2><br>
+        <table>
         {%for item in all_items%}
-        
+        <tr><td>
         <form method="POST">
             {%csrf_token%}
             <div>
                 <img src={{item.photo.url}} height="200px" width="200px">
-            </div>
+            </div><br>
             <div>
-                <p>Name: {{item.name}}</p>
-                <p>Description: {{item.description}}</p>
-                <p>Price: {{item.price}}</p>
-                <p>Quantity: {{item.quantity}}</p>
+                <p><b>Name: </b> {{item.name}}</p>
+                <p><b>Description: </b> {{item.description}}</p>
+                <p><b>Price: </b> {{item.price}}</p>
+                <p><b>Quantity: </b> {{item.quantity}}</p>
             </div>
-            <button><a href="/prodmanagement/edit/{{item.id}}">Edit</a></button>
-            <input type="submit" name="delete-{{item.id}}" value="Delete">
+            <br>
+            <div id="cont">
+            <div id="yes"><button style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4"><a href="/prodmanagement/edit/{{item.id}}">Edit</a></button></div>
+            <div id="yes"><input type="submit" name="delete-{{item.id}}" value="Delete" style="cursor:pointer;" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4"></div>
+            </div>
         </form>
+        </td></tr>
         {%endfor%}
+        </table>
     </div>
+    </center>
 </body>
 
 </html>

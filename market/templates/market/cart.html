@@ -35,9 +35,22 @@
 <link rel="stylesheet" type="text/css" href="{%static 'css/util.css' %}">
 <link rel="stylesheet" type="text/css" href="{%static 'css/main.css' %}">
 <!--===============================================================================================-->
-</head>
-<body class="animsition">
 
+<style>
+	#error {
+			height:100%;
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+			background-color: crimson;
+			color: cornsilk;
+		}
+</style>
+</head>
+
+{% if userr.id == loggeduser.id and loggeduser.accountType == "Customer" %}
+<body class="animsition">
 	<!-- Header -->
 	<header class="header1">
 		<!-- Header desktop -->
@@ -416,18 +429,25 @@
 			<div class="bo9 w-size18 p-l-40 p-r-40 p-t-30 p-b-38 m-t-30 m-r-0 m-l-auto p-lr-15-sm">
 				<!--  -->
 				<div class="flex-w flex-sb bo10 p-t-15 p-b-20">
-
+					<center>
 					<div class="w-size20 w-full-sm">
-						Enter payment info:<br>
-						Credit Card Number:
-						<input type="number" name="card-num"><br>
+						<center>
+						<h4>Enter payment info:</h4>
+						<br>
+						Credit Card Number:<br>
+						<div class="bo4 of-hidden size02 m-b-20" style="">
+						<input type="number" name="card-num"></div><br>
 						CVV:<br>
-						<input type="number" name="cvv"><br>
-						Expiration date: 
-						<input type="date" name="date">
+						<div class="bo4 of-hidden size02 m-b-20" style="">
+						<input type="number" name="cvv"></div><br>
+						Expiration date: <br>
+						<div class="bo4 of-hidden size02 m-b-20" style="">
+						<input type="date" name="date"></div>
 						<div class="size14 trans-0-4 m-b-10">
 						</div>
+						</center>
 					</div>
+				</center>
 				</div>
 
 				<!--  -->
@@ -710,5 +730,15 @@
 	</script>
 <!--===============================================================================================-->
 	<script src="{%static 'js/main.js'%}"></script>
-</body>
+	</body>
+	{% else %}
+	<body>
+	<div id="error">
+            <center>
+                <h1>Unauthorized Access!</h1>
+                <a href="/">Go Back to Home</a>
+            </center>
+	</div>
+	</body>
+	{% endif %}
 </html>

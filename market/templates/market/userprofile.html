@@ -1,27 +1,123 @@
 {% load staticfiles %}
 
 <html>
-<head><title>User Profile</title></head>
+<head>
+	<title>User Profile | {{user.username}}</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/themify/themify-icons.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/elegant-font/html-css/style.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/animate/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/slick/slick.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/lightbox2/css/lightbox.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{%static 'css/main.css' %}">
+<!--===============================================================================================-->
+
+<style>
+	#error {
+		height:100%;
+		width: 100%;
+		display: flex;
+    	justify-content: center;
+		flex-direction: column;
+		background-color: crimson;
+		color: cornsilk;
+	}
+
+	table {
+		width: 90%;
+	}
+
+	td {
+		border: black;
+		border-style: dotted;
+		width: 50%;
+		text-align: center;
+		padding: 10px;
+	}
+
+	#yes {
+		width: 25%;
+		padding: 5px;
+	}
+
+	#cont {
+		align-items: center;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		
+	}
+
+</style>
+</head>
+
+
 <body>
+{% if user.id == loggeduser.id %}
 <!-- user detailz -->
+<center>
+	<br>
+<h1>Welcome to your profile, {{user.username}}!</h1>
+<br>
 
-Name: {{ user.firstName }} {{ user.middleInitial }}. {{ user.lastName }}
-<br>
-Username: {{ user.username }}
-<br>
-Billing Address: {{ user.BhouseNo }} {{ user.Bstreet }}, {{ user.Bsubdivision }}, {{ user.Bcity }}
-<br>
-Billing Postal Code: {{ user.BpostalCode }}
-<br>
-Billing Country: {{ user.Bcountry.name }}
-<br>
-Shipping Address: {{ user.ShouseNo }} {{ user.Sstreet }}, {{ user.Ssubdivision }}, {{ user.Scity }}
-<br>
-Shipping Postal Code: {{ user.SpostalCode }}
-<br>
-Shipping Country: {{ user.Scountry.name }}
-<br><br>
-
+<table>
+<tr>
+<td>Name:</td>
+<td>{{ user.firstName }} {{ user.middleInitial }}. {{ user.lastName }}</td>
+</tr>
+<tr>
+<td>Username:</td>
+<td> {{ user.username }}</td>
+</tr>
+<tr>
+<td>Billing Address: </td>
+<td>{{ user.BhouseNo }} {{ user.Bstreet }}, {{ user.Bsubdivision }}, {{ user.Bcity }} </td>
+</tr>
+<tr>
+<td>Billing Postal Code:</td>
+<td> {{ user.BpostalCode }} </td>
+</tr>
+<tr>
+<td>Billing Country:</td>
+<td>{{ user.Bcountry.name }} </td>
+</tr>
+<tr>
+<td>Shipping Address: </td>
+<td>{{ user.ShouseNo }} {{ user.Sstreet }}, {{ user.Ssubdivision }}, {{ user.Scity }} </td>
+</tr>
+<tr>
+<td>Shipping Postal Code: </td>
+<td>{{ user.SpostalCode }} </td>
+</tr>
+<tr>
+<td>Shipping Country: </td>
+<td>{{ user.Scountry.name }}</td>
+</tr>
+</table>
 <!-- transaction history -->
 {% for transaction in transactions %}
 	
@@ -39,17 +135,32 @@ Shipping Country: {{ user.Scountry.name }}
 {% endfor %}
 
 <br>
-<button>
-	<a href="/userprofile/edit/{{user.id}}">Edit profile</a>
-</button>
+<div id="cont">
+	<div id="yes">
+	<button style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
+		<a href="/userprofile/edit/{{user.id}}">Edit profile</a>
+	</button>
+	</div>
+	<div id="yes">
+	<button style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
+		<a href="/history">View transaction history</a>
+	</button>
+	</div>
+	<div id="yes">
+	<button style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
+		<a href="/">Go back</a>
+	</button>
+	</div>
+</div>
+</center>
 
-<button>
-	<a href="/history">View transaction history</a>
-</button>
-
-<button>
-	<a href="/">Go back</a>
-</button>
-
+{% else %}
+<div id="error">
+<center>
+	<h1>Unauthorized Access!</h1>
+	<a href="/">Go Back to Home</a>
+</center>
+</div>
+{% endif %}
 </body>
 </html>

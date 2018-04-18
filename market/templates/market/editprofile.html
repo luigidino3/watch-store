@@ -1,17 +1,122 @@
+{% load staticfiles %}
+<html>
 <head>
     <title>Edit Profile</title>
-</head>
-<body>
-    <form method="POST">
-    {%csrf_token%}
-    {%for field in form%}
-    <div>
-        {{field.label_tag}}
-        {{field}}
-    </div>
-    {%endfor%}
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/themify/themify-icons.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/elegant-font/html-css/style.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/animate/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/slick/slick.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/lightbox2/css/lightbox.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{%static 'css/main.css' %}">
+<!--===============================================================================================-->
 
-    <input type="submit" value="Save">
+<style>
+	#error {
+		height:100%;
+		width: 100%;
+		display: flex;
+    	justify-content: center;
+		flex-direction: column;
+		background-color: crimson;
+		color: cornsilk;
+	}
+
+	table {
+		width: 90%;
+	}
+
+	td {
+		border: black;
+		border-style: dotted;
+		width: 50%;
+		text-align: center;
+		padding: 10px;
+	}
+
+	#yes {
+		width: 25%;
+		padding: 5px;
+	}
+
+	#cont {
+		align-items: center;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		
+	}
+
+    #tx {
+        border:black;
+        border-style: solid;
+        border-width: thin;
+        padding: 2px;
+    }
+
+</style>
+</head>
+
+<body>
+    {% if user.id == loggeduser.id and loggeduser.accountType == "Customer" %}
+    <center>
+    <h1>Edit your profile:</h1>
+    <br>
+    <form method="POST">
+    <table>
+    {%csrf_token%}
+	{%for field in form%}
+		{% if field.label != "password" %}
+			<tr>
+			<td>{{field.label_tag}}</td>
+			<td><div id="tx">{{field}}</div></td>
+			</tr>
+		{% endif %}
+    {%endfor%}
+    </table>
+    </center>
+
+    <div id="cont">
+    <div id="yes">
+    <input type="submit" value="Save" style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
     </form>
-    <button><a href="/userprofile/{{user.id}}">Go back</a></button>
+    </div>
+    <div id="yes">
+    <button style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4"><a href="/userprofile/{{user.id}}">Go back</a></button>
+    </div>
+    </div>
+
+    {% else %}
+    <div id="error">
+            <center>
+                <h1>Unauthorized Access!</h1>
+                <a href="/">Go Back to Home</a>
+            </center>
+    </div>
+    {% endif %}
 </body>
+</html>
