@@ -380,9 +380,11 @@ def register(request):
             message = "Invalid shipping city"
             return render(request,'market/signup.html',{'form':form,'message':message})
         
+        username = account.username.upper()
         for i in all_users:
-            if account.username == i.username:
-                message = "Username already taken"
+            temporary = i.username.upper()
+            if temporary == username:
+                message = "Username already taken!"
                 return render(request,'market/signup.html',{'form':form,'message':message})
         account.save()
         print(account.Bcountry)
