@@ -494,6 +494,8 @@ def register(request):
                 message = "Username already taken!"
                 return render(request,'market/signup.html',{'form':form,'message':message})
         account.save()
+        newcount = models.countess(user=account)
+
         print(account.Bcountry)
         return redirect('login')
 
