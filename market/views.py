@@ -1,5 +1,7 @@
 from django.shortcuts import render,redirect
 # Create your views here.
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 
 from .models import *
 from market.forms import *
@@ -10,6 +12,7 @@ import datetime
 
 def home(request):
     all_users = User.objects.all()
+    #user_id = request.session['user']
     try:
         loggeduser = User.objects.get(id=request.session['user'])
         print('This is my session id:'+ str(request.session['user']))
@@ -25,6 +28,12 @@ def home(request):
     }
 
     return render(request,'market/index.html',context)
+'''
+    try:
+        loggeduser = User.objects.get(id=request.session['USERZ'])
+    except (KeyError, User.DoesNotExist):
+        loggeduser = 0
+'''
 
 def shop(request):
     all_items = Items.objects.all()
@@ -37,6 +46,8 @@ def shop(request):
     if request.method == "GET":
         if "search-product" in request.GET:
             all_items = Items.objects.filter(name__icontains=request.GET.get("search-product"))
+
+    #if request.POST.get("addcart"):
 
     context = {
         'all_items':all_items,
@@ -132,12 +143,13 @@ def cart(request, user_id):
         cart_total += aa
 
     context = {
-		'cart_itemz':cart_itemz,
+        'cart_itemz':cart_itemz,
         'loggeduser':loggeduser,
         'cart_total':cart_total,
         'form':form,
         'message':message,
-	}
+        'userr':userr,
+    }
 
     if request.method == "POST":
         for i in request.POST:
@@ -315,6 +327,11 @@ def admin(request):
     all_users = User.objects.all()
     message = ""
 
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
+
     if form.is_valid():
         account = form.save(commit=False)
         account.accountType = request.POST.get("accountType")
@@ -347,9 +364,13 @@ def admin(request):
         ##Redirect back to admin page
         return redirect('adminPage')
 
+    #admin_accounts = User.objects.filter(accountType__contains="Accounting Manager").filter(accountType__contains="Product Manager")
+        
     context = {
         'form':form,
         'message':message,
+        'all_users':all_users,
+        'loggeduser':loggeduser,
     }
     return render(request,'market/adminPage.html',context)
 
@@ -397,6 +418,7 @@ def addItem(request):
     if request.method == "POST":
         if form.is_valid():
             item = form.save(commit=False)
+            #item.price = 1000.00
             item.save()
             return redirect('prod')
     
@@ -436,19 +458,21 @@ def productDetails(request,id):
     return render(request,'market/product-detail.html',context)
 
 def userProfile(request, user_id):
-	user = User.objects.get(pk=user_id)
-	
-	try:
-		loggeduser = User.objects.get(id=request.session['user'])
-	except(KeyError, User.DoesNotExist):
-		loggeduser = 0
-	
-	context = {
-		'loggeduser':loggeduser,
-		'user':user,
-	}
-	
-	return render(request, 'market/userprofile.html', context)
+    user = User.objects.get(pk=user_id)
+    
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+        #print('This is my session id:'+ str(request.session['user']))
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
+        #print("No session")
+    
+    context = {
+        'loggeduser':loggeduser,
+        'user':user,
+    }
+    
+    return render(request, 'market/userprofile.html', context)
 
 def editProfile(request,user_id):
     user = User.objects.get(id=user_id)
@@ -470,6 +494,7 @@ def editProfile(request,user_id):
     context = {
         'user':user,
         'form':form,
+        'loggeduser':loggeduser,
     }
     return render(request,'market/editprofile.html',context)
 
@@ -495,6 +520,11 @@ def accounting(request):
     message = 'All transactions'
     total = 0
 
+    try:
+        loggeduser = User.objects.get(id=request.session['user'])
+    except(KeyError, User.DoesNotExist):
+        loggeduser = 0
+
     if request.method == "GET":
         if "all" in request.GET:
             all_items = all_items
@@ -518,5 +548,18 @@ def accounting(request):
         'all_items':all_items,
         'message':message,
         'total':total,
+        'loggeduser':loggeduser,
     }
     return render(request,'market/accounting.html',context)
+
+
+def handler404(request, exception, template_name='404.html'):
+    response = render_to_response('404.html', {},context_instance=RequestContext(request))
+    response.status_code = 404
+    return response
+
+
+def handler500(request, exception, template_name='404.html'):
+    response = render_to_response('500.html', {}, context_instance=RequestContext(request))
+    response.status_code = 500
+    return response

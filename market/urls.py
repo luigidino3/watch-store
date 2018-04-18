@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from . import views
+from django.views.defaults import page_not_found
 
 urlpatterns = [
     url(r'^$', views.home, name='home'),
@@ -19,8 +20,11 @@ urlpatterns = [
     url(r'^shop/viewitem/(?P<id>[0-9]+)$',views.productDetails,name='productDetail'),
     url(r'^userprofile/(?P<user_id>[0-9]+)$', views.userProfile, name='userprofile'),
     url(r'^userprofile/edit/(?P<user_id>[0-9]+)$', views.editProfile, name='editprofile'),
-	url(r'^cart/(?P<user_id>[0-9]+)$', views.cart, name='cart'),
+    url(r'^cart/(?P<user_id>[0-9]+)$', views.cart, name='cart'),
     url(r'^review/(?P<item_id>[0-9]+)$', views.review, name='review'),
     url(r'^history$',views.history,name='history'),
     url(r'^accounting$',views.accounting,name='accounting'),
 ]
+
+handler404 = 'market.views.handler404'
+handler500 = 'market.views.handler500'
