@@ -12,6 +12,52 @@ import datetime
 
 import logging
 
+def ValidatingPassword(account):
+	MIN_LENGTH = 8
+	capital = 0
+	small = 0
+	message = "NO PROBLEM"
+    
+	# Firstname and lastname should not be allowed in password
+	if account.firstName in account.password:
+		message = "Firstname should not in password"
+		return message
+	if account.lastName in account.password:
+		message = "Firstname should not in password"
+		return message
+	
+	# At least MIN_LENGTH long
+	if len(account.password) < MIN_LENGTH:
+		message =  "The password must be at least %d characters long." % MIN_LENGTH 
+		return message
+	# At least one letter and one non-letter
+	first_isalpha = account.password[0].isalpha()
+	if all(c.isalpha() == first_isalpha for c in account.password):
+		message = "The password must contain at least one letter and at least one digit or" \
+									" punctuation character."
+		return message
+		
+	# At least one letter is capital or small
+	for c in account.password:
+		if c.isalpha():
+			if c == c.upper():
+				capital+=1
+			else:
+				small+=1
+	if small==0:
+		message = "The password must contain at least one LowerCase Letter"
+		return message
+	if capital==0:
+		message = "The password must contain at least one UpperCase Letter"
+		return message
+		
+	# At least one symbol
+	if all(c.isalpha() or c.isdigit() for c in account.password): 
+		message = "The password must contain at least one Symbol"
+		return message
+		
+	return message
+
 def home(request):
     all_users = User.objects.all()
     #user_id = request.session['user']
@@ -323,6 +369,9 @@ def register(request):
             return render(request,'market/signup.html',{'form':form,'message':message})
         if not re.match(r"^[a-zA-z]{1,25}$",account.lastName):
             message = "Invalid last name"
+            return render(request,'market/signup.html',{'form':form,'message':message})
+        if ValidatingPassword(account) != "NO PROBLEM":
+            message = ValidatingPassword(account)
             return render(request,'market/signup.html',{'form':form,'message':message})
         if not re.match(r"^[A-Za-z]*$",account.Bcity):
             message = "Invalid billing city"
