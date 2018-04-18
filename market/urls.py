@@ -25,6 +25,3 @@ urlpatterns = [
     url(r'^history$',views.history,name='history'),
     url(r'^accounting$',views.accounting,name='accounting'),
 ]
-
-handler404 = 'market.views.handler404'
-handler500 = 'market.views.handler500'

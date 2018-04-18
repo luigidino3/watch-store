@@ -641,13 +641,10 @@ def accounting(request):
     return render(request,'market/accounting.html',context)
 
 
-def handler404(request, exception, template_name='404.html'):
-    response = render_to_response('404.html', {},context_instance=RequestContext(request))
-    response.status_code = 404
-    return response
-
-
-def handler500(request, exception, template_name='404.html'):
-    response = render_to_response('500.html', {}, context_instance=RequestContext(request))
-    response.status_code = 500
-    return response
+def error_404(request):
+        data = {}
+        return render(request,'market/error_404.html', data)
+ 
+def error_500(request):
+        data = {}
+        return render(request,'market/error_500.html', data)
