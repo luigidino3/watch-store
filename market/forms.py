@@ -11,8 +11,8 @@ class createAccount(forms.ModelForm):
     class Meta:
 
         model = User
-        fields = ['firstName','middleInitial','lastName','username','password','email','BhouseNo','Bstreet','Bsubdivision','Bcity','BpostalCode',
-        'Bcountry','ShouseNo','Sstreet','Scity','Ssubdivision','SpostalCode','Scountry']
+        fields = ['firstName','middleInitial','lastName','username','email','BhouseNo','Bstreet','Bsubdivision','Bcity','BpostalCode',
+        'Bcountry','ShouseNo','Sstreet','Scity','Ssubdivision','SpostalCode','Scountry','password']
 
         widgets = {
             'password':forms.PasswordInput(),
@@ -20,6 +20,27 @@ class createAccount(forms.ModelForm):
             'Bstreet':forms.Textarea(),
             'Sstreet':forms.Textarea(),
 
+        }
+
+        labels = {
+            'firstName': ('First Name'),
+            'middleInitial': ('Middle Initial'),
+            'lastName': ('Last Name'),
+            'username': ('Username'),
+            'email': ('Email Address'),
+            'BhouseNo': ('Billing House'),
+            'Bstreet': ('Billing Street'),
+            'Bsubdivision': ('Billing Subdivision'),
+            'Bcity': ('Billing City'),
+            'BpostalCode': ('Billing Postal Code'),
+            'Bcountry': ('Billing Country'),
+            'ShouseNo': ('Shipping House No.'),
+            'Sstreet': ('Shipping Street'),
+            'Scity': ('Shipping City'),
+            'Ssubdivision': ('Shipping Subdivision'),
+            'SpostalCode': ('Shipping Postal Code'),
+            'Scountry': ('Shipping Country'),
+            'password': ('Password'),
         }
 
 class adminCreate(forms.ModelForm):
