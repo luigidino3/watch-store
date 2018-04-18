@@ -7,7 +7,7 @@ from .models import *
 from market.forms import *
 from market.forms import addItems
 import re
-
+from django.views.decorators.cache import never_cache
 import datetime
 
 import logging
@@ -58,6 +58,7 @@ def ValidatingPassword(account):
 		
 	return message
 
+@never_cache
 def home(request):
     all_users = User.objects.all()
     #user_id = request.session['user']
@@ -83,6 +84,7 @@ def home(request):
         loggeduser = 0
 '''
 
+@never_cache
 def shop(request):
     all_items = Items.objects.all()
     message = "All"
@@ -105,6 +107,7 @@ def shop(request):
 
     return render(request,'market/product.html',context)
 
+@never_cache
 def shopAnalog(request):
     all_items = Items.objects.all()
     all_items = Items.objects.filter(itemtype__contains="Analog")
@@ -127,6 +130,7 @@ def shopAnalog(request):
 
     return render(request,'market/product.html',context)  
 
+@never_cache
 def shopDigital(request):
     all_items = Items.objects.all()
     all_items = Items.objects.filter(itemtype__contains="Digital")
@@ -149,6 +153,7 @@ def shopDigital(request):
 
     return render(request,'market/product.html',context)  
 
+@never_cache
 def shopSmart(request):
     all_items = Items.objects.all()
     all_items = Items.objects.filter(itemtype__contains="Smart")
@@ -170,7 +175,8 @@ def shopSmart(request):
     }
 
     return render(request,'market/product.html',context)  
-            
+
+@never_cache            
 def cart(request, user_id):
     form = creditForm(request.POST)
     all_cart = CartItem.objects.all()
@@ -275,6 +281,7 @@ def cart(request, user_id):
 
     return render(request,'market/cart.html',context)
 
+@never_cache
 def review(request,item_id):
     form = reviewForm(request.POST or None)
     item = Items.objects.get(id=item_id)
@@ -350,7 +357,7 @@ def login(request):
 
 def logout(request):
     del request.session['user']
-    return render(request,'market/logout.html',{})
+    return redirect('home')
     
 def register(request):
     form = createAccount(request.POST or None)
@@ -392,6 +399,7 @@ def register(request):
 
     return render(request,'market/signup.html',{'form':form,'message':message})
 
+@never_cache
 def admin(request):
     form = adminCreate(request.POST or None)
     all_users = User.objects.all()
@@ -446,6 +454,7 @@ def admin(request):
     }
     return render(request,'market/adminPage.html',context)
 
+@never_cache
 def productManagement(request):
     all_items = Items.objects.all()
 
@@ -465,6 +474,7 @@ def productManagement(request):
 
     return render(request,'market/productManager.html',context)
 
+@never_cache
 def productManagementEdit(request,id):
     item = Items.objects.get(pk=id)
     form = uploadPhoto(request.POST,request.FILES or None,instance=item)
@@ -484,6 +494,7 @@ def productManagementEdit(request,id):
     }
     return render(request,'market/editItem.html',context)
 
+@never_cache
 def addItem(request):
     form = addItems(request.POST,request.FILES or None)
 
@@ -499,6 +510,7 @@ def addItem(request):
     }
     return render(request,'market/addItem.html',context)
 
+@never_cache
 def productDetails(request,id):
     item = Items.objects.get(pk=id)
     all_items = Items.objects.all()
@@ -529,6 +541,7 @@ def productDetails(request,id):
     }
     return render(request,'market/product-detail.html',context)
 
+@never_cache
 def userProfile(request, user_id):
     user = User.objects.get(pk=user_id)
     
@@ -546,6 +559,7 @@ def userProfile(request, user_id):
     
     return render(request, 'market/userprofile.html', context)
 
+@never_cache
 def editProfile(request,user_id):
     user = User.objects.get(id=user_id)
     form = createAccount(request.POST or None,instance=user)
@@ -570,6 +584,7 @@ def editProfile(request,user_id):
     }
     return render(request,'market/editprofile.html',context)
 
+@never_cache
 def history(request):
     try:
         loggeduser = User.objects.get(id=request.session['user'])
@@ -586,6 +601,7 @@ def history(request):
 
     return render(request,'market/history.html',context)
 
+@never_cache
 def accounting(request):
     transactions = TransactionItem.objects.all()
     all_items = Items.objects.all()
