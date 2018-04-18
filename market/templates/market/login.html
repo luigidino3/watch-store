@@ -351,7 +351,7 @@
 						{% csrf_token %}
 						{%if error != ''%}
 						<h4 style= "color: #D8000C; background-color: #FFD2D2;vertical-align:middle;"class="p-b-30 p-t-10">
-							INVALID USER NAME AND/OR PASSWORD
+							{{error}}
 						</h4>
 						{%endif%}
 

@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator
 from django.core.validators import MaxValueValidator
 
 # Create your models here.
+
 class User(models.Model):
 
     accounts = (
@@ -41,6 +42,13 @@ class User(models.Model):
     def __str__(self):
         return self.username
 
+class countess(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    number = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.user.username
+    
 class Items(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()

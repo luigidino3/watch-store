@@ -227,6 +227,7 @@ def cart(request, user_id):
                                         'cart_total':cart_total,
                                         'form':form,
                                         'message':message,
+                                        'userr':userr,
                                         } 
                                     return render(request,'market/cart.html',context)
                         for itemz in cart_itemz:
@@ -242,32 +243,36 @@ def cart(request, user_id):
                     else:
                         message = "Card is expired"
                         context = {
-            'cart_itemz':cart_itemz,
-            'loggeduser':loggeduser,
-            'cart_total':cart_total,
-            'form':form,
-            'message':message,
-        }
+                            'cart_itemz':cart_itemz,
+                            'loggeduser':loggeduser,
+                            'cart_total':cart_total,
+                            'form':form,
+                            'message':message,
+                                        'userr':userr,                            
+                        }
                         return render(request,'market/cart.html',context)
                 else:
                     message = "incorrect credit card number"
                     context = {
-            'cart_itemz':cart_itemz,
-            'loggeduser':loggeduser,
-            'cart_total':cart_total,
-            'form':form,
-            'message':message,
-        }
+                        'cart_itemz':cart_itemz,
+                        'loggeduser':loggeduser,
+                        'cart_total':cart_total,
+                        'form':form,
+                        'message':message,
+                        'userr':userr,
+                                                                
+                    }
                     return render(request,'market/cart.html',context)
             else: 
                 message = "incorrect cvv"
                 context = {
-            'cart_itemz':cart_itemz,
-            'loggeduser':loggeduser,
-            'cart_total':cart_total,
-            'form':form,
-            'message':message,
-        }
+                    'cart_itemz':cart_itemz,
+                    'loggeduser':loggeduser,
+                    'cart_total':cart_total,
+                    'form':form,
+                    'message':message,
+                    'userr':userr,
+                }
                 return render(request,'market/cart.html',context)
         else:
             for i in request.POST:
@@ -286,11 +291,19 @@ def cart(request, user_id):
 def review(request,item_id):
     form = reviewForm(request.POST or None)
     item = Items.objects.get(id=item_id)
+    checker = 0
     try:
         loggeduser = User.objects.get(id=request.session['user'])
-        
     except(KeyError, User.DoesNotExist):
         loggeduser = 0
+
+    try:
+        transactions = TransactionItem.objects.filter(user__username=loggeduser.username)
+        for i in transactions:
+            if i.item.name == item.name:
+                checker = 1
+    except(KeyError, TransactionItem.DoesNotExist):
+        transactions = 0
 
     if request.method == "POST":
         review = form.save(commit=False)
@@ -302,6 +315,7 @@ def review(request,item_id):
         'form':form,
         'item':item,
         'loggeduser':loggeduser,
+        'checker':checker,
     }
     return render(request, 'market/review.html', context)
 
@@ -330,6 +344,7 @@ def contact(request):
 @never_cache
 def login(request):
     all_users = User.objects.all()
+    all_counters = countess.objects.all()
     error = ''
 
     if request.method == "POST":
@@ -339,6 +354,15 @@ def login(request):
         for i in all_users:
             if i.username == username:
                 if i.password == password:
+                    
+                    for a in all_counters:
+                        if a.user.username == i.username:
+                            if a.number >= 5:
+                                error = "Your account is locked. Please contact Administrator for help"
+                                return render(request,'market/login.html',{'error':error})
+                            else:
+                                a.number = 0
+                                a.save()
 
                     my_old_sessions = Session.objects.all()
                     for row in my_old_sessions:
@@ -354,8 +378,13 @@ def login(request):
                         return redirect('prod')
                     elif i.accountType == 'Accounting Manager':
                         return redirect('accounting')
-
-        error = "Invalid username/password"
+                else:
+                    for counter in all_counters:
+                        if counter.user.username == i.username:
+                            counter.number += 1
+                            counter.save()
+                    
+        error = "Invalid Username and/or Password"
 
     context = {
         'error':error,
@@ -365,7 +394,8 @@ def login(request):
 def logout(request):
     del request.session['user']
     return redirect('home')
-    
+
+@never_cache    
 def register(request):
     form = createAccount(request.POST or None)
     all_users = User.objects.all()
@@ -422,8 +452,9 @@ def admin(request):
             return redirect('home')
         account = form.save(commit=False)
         account.accountType = request.POST.get("accountType")
+        temp = account.username.upper()
         for i in all_users:
-            if account.username == i.username:
+            if temp == i.username.upper():
                 message = "Username already taken!!"
                 return render(request,'market/adminPage.html',{"form":form,"message":message})
         account.firstName = "a"
