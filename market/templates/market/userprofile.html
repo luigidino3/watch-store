@@ -77,7 +77,7 @@
 
 
 <body>
-{% if user.id == loggeduser.id %}
+{% if user.id == loggeduser.id and loggeduser.accountType == "Customer" %}
 <!-- user detailz -->
 <center>
 	<br>
@@ -157,8 +157,8 @@
 {% else %}
 <div id="error">
 <center>
-	<h1>Unauthorized Access!</h1>
-	<a href="/">Go Back to Home</a>
+	<h1>Unauthorized Access!</h1><br>
+	<button onclick="window.history.back()" style="border: 2px solid; padding: 3px;">Go Back</button>
 </center>
 </div>
 {% endif %}

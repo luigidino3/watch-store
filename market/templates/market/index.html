@@ -35,7 +35,21 @@
 	<link rel="stylesheet" type="text/css" href="{%static 'css/util.css' %}">
 	<link rel="stylesheet" type="text/css" href="{%static 'css/main.css' %}">
 <!--===============================================================================================-->
+<style>
+	#error {
+		height:100%;
+		width: 100%;
+		display: flex;
+    	justify-content: center;
+		flex-direction: column;
+		background-color: crimson;
+		color: cornsilk;
+	}
+
+</style>
+
 </head>
+{% if loggeduser.accountType == "Customer" or loggeduser == 0 %}
 <body class="animsition">
 
 	<!-- header fixed -->
@@ -1115,4 +1129,14 @@
 	<script src="{%static 'js/main.js'%}"></script>
 
 </body>
+{% else %}
+<body>
+    <div id="error">
+            <center>
+                <h1>Unauthorized Access!</h1><br>
+                <button onclick="window.history.back()" style="border: 2px solid; padding: 3px;">Go Back</button>
+            </center>
+	</div>
+</body>
+{% endif %}
 </html>
