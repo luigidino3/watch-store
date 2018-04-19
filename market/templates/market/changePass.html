@@ -2,7 +2,7 @@
 {% load staticfiles %}
 <html>
     <head>
-        <title>Product Management</title>
+        <title>Change Password</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!--===============================================================================================-->
@@ -83,10 +83,34 @@
     </head>
 
     <body>
-        {% if loggeduser.accountType == "Customer" %}
-        <h1>Change Your Password: </h1>
+        {% if loggeduser.accountType == "Customer" and user.id == loggeduser.id %}
+        <center><br>
+        <h1>Change Your Password: </h1><br>
+        <table>
+        <tr><td>
+        <form method="POST">
+            {% csrf_token %}
+            {%if message != ""%}
+                <center><h2 style= "color: #D8000C; background-color: #FFD2D2;vertical-align:middle;"class="p-b-30 p-t-10">{{message}}</h2></center>
+            {%endif%}
 
+            {% for i in form %}
+                <label>{{i.label_tag}}</label>
+                <div id="txt" class="bo4 of-hidden size02 m-b-20">{{i}}</div>
+            {% endfor %}
 
+            <label>Old Password:</label>
+            <div id="txt" class="bo4 of-hidden size02 m-b-20">
+                <input type="password" name="oldpass">
+            </div>
+        </td></tr>
+        </table><br>
+        <div id="cont"></div>
+        <input id="yes" type="submit" value="Change Password" style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
+        <br><button id="yes" onclick="window.history.back()" style="cursor:pointer; "class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">Cancel</button>
+        </div>
+        </form>
+        </center>
         {% else %}
         <div id="error">
             <center>
